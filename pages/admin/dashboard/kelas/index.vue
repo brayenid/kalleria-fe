@@ -1,21 +1,51 @@
 <script setup>
 import config from '~/config'
+import { usePaginationStore } from '~/stores/myPaginationStore'
 
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
 })
 
-const { $axiosAuth: axios } = useNuxtApp()
+const { $axiosAuth: axios, $scrollTo: scrollTo } = useNuxtApp()
+const paginationStore = usePaginationStore()
 const kelasList = ref([])
 const isLoading = ref(true)
 const route = useRoute()
+const kelasListEl = ref()
+
+// PAGINATION MANDATORY STATE
+const pageNumber = ref(paginationStore.pageNumberKelasAdmin)
+const pageSize = 4
+const rowsTotal = ref(0)
+
+// PAGINATION MANDATORY FUNC
+const changePage = (number) => {
+  const scroll = scrollTo(kelasListEl.value, 500, {
+    offset: -70
+  })
+  paginationStore.$patch({ pageNumberKelasAdmin: number })
+  setTimeout(() => {
+    scroll()
+  }, 1000)
+}
+
+const resetPageValue = () => {
+  paginationStore.$patch({ pageNumberKelasAdmin: 1 })
+}
+
+paginationStore.$subscribe(async (mutation, state) => {
+  const response = (await axios.get(`/kelas?pageSize=${pageSize}&pageNumber=${state.pageNumberKelasAdmin}`)).data.data
+  kelasList.value = response.rows
+})
 
 onMounted(async () => {
-  const response = (await axios.get('/kelas')).data.data
+  const response = (await axios.get(`/kelas?pageSize=${pageSize}&pageNumber=${pageNumber.value}`)).data.data
   if (response) {
     isLoading.value = false
   }
+
+  rowsTotal.value = response.total
   kelasList.value = response.rows
 })
 </script>
@@ -29,7 +59,7 @@ onMounted(async () => {
 <template>
   <div>
     <Breadcrumbs :path="route.path" last-point="kelas" :start-index="2" :slice-link="2" />
-    <section class="bg-white dark:bg-gray-900 shadow rounded-md">
+    <section ref="kelasListEl" class="bg-white dark:bg-gray-900 shadow rounded-md">
       <div class="p-8 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
           <h2 class="mb-4 text-3xl lg:text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">Daftar Kelas</h2>
@@ -43,14 +73,16 @@ onMounted(async () => {
                   {{ kelas.tipeKelas }}
                 </span>
               </div>
-              <div class="max-h-[200px] overflow-hidden flex items-center justify-center my-5 rounded-md">
-                <img :src="`${config.API_BASE_URL}/${kelas.thumbnailKelas}`" class="object-center" :alt="kelas.namaKelas" />
+              <div class="max-h-[200px] min-h-[180px] overflow-hidden flex items-center justify-center my-5 rounded-md">
+                <NuxtLink :to="`/admin/dashboard/kelas/detail/${kelas.id}`">
+                  <img :src="`${config.API_BASE_URL}/${kelas.thumbnailKelas}`" class="object-center" :alt="kelas.namaKelas" />
+                </NuxtLink>
               </div>
               <h2 class="mb-4 text-2xl font-semibold tracking-tight text-gray-800 dark:text-white">
-                <NuxtLink :to="`/dashboard/kelas/${kelas.id}`">{{ kelas.namaKelas }}</NuxtLink>
+                <NuxtLink :to="`/admin/dashboard/kelas/detail/${kelas.id}`">{{ kelas.namaKelas }}</NuxtLink>
               </h2>
               <div class="flex justify-end items-center">
-                <NuxtLink :to="`/dashboard/kelas/${kelas.id}`" class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
+                <NuxtLink :to="`/admin/dashboard/kelas/detail/${kelas.id}`" class="inline-flex items-center font-medium text-primary-600 dark:text-primary-500 hover:underline">
                   Lihat Detail
                   <svg class="ml-2 w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
@@ -62,6 +94,7 @@ onMounted(async () => {
           <div v-if="isLoading">
             <UserDashboardKelasSkeleton :number-of-skeleton="4" />
           </div>
+          <Paginations :page-number="paginationStore.pageNumberKelasAdmin" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
         </div>
       </div>
     </section>

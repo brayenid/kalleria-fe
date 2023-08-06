@@ -38,7 +38,8 @@ const shownPageRangesStart = computed(() => {
   return props.pageNumber === 1 ? 1 : props.pageNumber * props.pageSize - props.pageSize + 1
 })
 const shownPageRangesEnd = computed(() => {
-  return props.pageNumber * props.pageSize
+  const rangeEnd = props.pageNumber * props.pageSize
+  return rangeEnd < props.rowsTotal ? rangeEnd : props.rowsTotal
 })
 
 // MENGEMBALIKAN BOOLEAN APAKAH DEKAT/MENCAPAI AKHIR, TIDAK BERLAKU JIKA NOMOR PAGINASI YANG DITAMPILKAN < 3
@@ -84,10 +85,10 @@ onUnmounted(() => {
 
 <template>
   <nav class="flex flex-col gap-2 items-center justify-between p-4 sm:flex-row sm:gap-0" aria-label="Table navigation">
-    <span class="text-xs sm:text-sm font-normal text-gray-500 dark:text-gray-400"
+    <span class="text-sm font-normal text-gray-500 dark:text-gray-400"
       >Menampilkan <span class="font-semibold text-gray-900 dark:text-white">{{ shownPageRangesStart }} - {{ shownPageRangesEnd }}</span> dari <span class="font-semibold text-gray-900 dark:text-white">{{ props.rowsTotal }}</span></span
     >
-    <ul class="inline-flex -space-x-px text-xs sm:text-sm h-8">
+    <ul class="inline-flex -space-x-px text-sm h-8">
       <li>
         <button
           @click="props.changePageFunc(1)"
@@ -100,7 +101,7 @@ onUnmounted(() => {
       <li v-for="(item, index) in paginationNumberMargin" :key="index">
         <button
           @click="props.changePageFunc(item)"
-          class="flex items-center justify-center px-1 sm:px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          class="flex items-center justify-center px-2 sm:px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           :class="{ '!bg-gray-100': isPaginationEqualsPage(item) }"
         >
           {{ item }}

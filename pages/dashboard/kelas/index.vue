@@ -1,21 +1,51 @@
 <script setup>
 import config from '~/config'
+import { usePaginationStore } from '~/stores/myPaginationStore'
 
 definePageMeta({
   middleware: 'auth-user',
   layout: 'user-dashboard'
 })
 
-const { $axiosAuth: axios } = useNuxtApp()
+const { $axiosAuth: axios, $scrollTo: scrollTo } = useNuxtApp()
+const paginationStore = usePaginationStore()
 const kelasList = ref([])
 const isLoading = ref(true)
 const route = useRoute()
+const kelasListEl = ref()
+
+// PAGINATION MANDATORY STATE
+const pageNumber = ref(paginationStore.pageNumberKelasAdmin)
+const pageSize = 4
+const rowsTotal = ref(0)
+
+// PAGINATION MANDATORY FUNC
+const changePage = (number) => {
+  const scroll = scrollTo(kelasListEl.value, 500, {
+    offset: -70
+  })
+  paginationStore.$patch({ pageNumberKelasAdmin: number })
+  setTimeout(() => {
+    scroll()
+  }, 1000)
+}
+
+const resetPageValue = () => {
+  paginationStore.$patch({ pageNumberKelasAdmin: 1 })
+}
+
+paginationStore.$subscribe(async (mutation, state) => {
+  const response = (await axios.get(`/kelas?pageSize=${pageSize}&pageNumber=${state.pageNumberKelasAdmin}`)).data.data
+  kelasList.value = response.rows
+})
 
 onMounted(async () => {
-  const response = (await axios.get('/kelas')).data.data
+  const response = (await axios.get(`/kelas?pageSize=${pageSize}&pageNumber=${pageNumber.value}`)).data.data
   if (response) {
     isLoading.value = false
   }
+
+  rowsTotal.value = response.total
   kelasList.value = response.rows
 })
 </script>
@@ -29,11 +59,11 @@ onMounted(async () => {
 <template>
   <div>
     <Breadcrumbs :path="route.path" last-point="kelas" />
-    <section class="bg-white dark:bg-gray-900 shadow rounded-md">
+    <section ref="kelasListEl" class="bg-white dark:bg-gray-900 shadow rounded-md">
       <div class="p-8 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
         <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
           <h2 class="mb-4 text-3xl lg:text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">Daftar Kelas</h2>
-          <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">Berikut adalah daftar kelas yang dapat diikuti, pilih satu (klik kelas) lalu selesaikan pembayaran, buka halaman transaksi, kirim bukti bayar, belajar!</p>
+          <p class="font-light text-gray-500 sm:text-md dark:text-gray-400">Berikut adalah daftar kelas yang dapat diikuti, pilih satu (klik kelas) lalu selesaikan pembayaran, buka halaman transaksi, kirim bukti bayar, belajar!</p>
         </div>
         <div class="min-h-[300px]">
           <div class="grid gap-8 lg:grid-cols-2">
@@ -44,8 +74,10 @@ onMounted(async () => {
                   {{ kelas.tipeKelas }}
                 </span>
               </div>
-              <div class="max-h-[200px] overflow-hidden flex items-center justify-center my-5 rounded-md">
-                <img :src="`${config.API_BASE_URL}/${kelas.thumbnailKelas}`" class="object-center" :alt="kelas.namaKelas" />
+              <div class="max-h-[200px] min-h-[180px] overflow-hidden flex items-center justify-center my-5 rounded-md">
+                <NuxtLink :to="`/dashboard/kelas/${kelas.id}`">
+                  <img :src="`${config.API_BASE_URL}/${kelas.thumbnailKelas}`" class="object-center" :alt="kelas.namaKelas" />
+                </NuxtLink>
               </div>
               <h2 class="mb-4 text-2xl font-semibold tracking-tight text-gray-800 dark:text-white">
                 <NuxtLink :to="`/dashboard/kelas/${kelas.id}`">{{ kelas.namaKelas }}</NuxtLink>
@@ -63,6 +95,7 @@ onMounted(async () => {
           <div v-if="isLoading">
             <UserDashboardKelasSkeleton :number-of-skeleton="4" />
           </div>
+          <Paginations :page-number="paginationStore.pageNumberKelasAdmin" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
         </div>
       </div>
     </section>

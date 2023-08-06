@@ -1,5 +1,7 @@
 <script setup>
 import { useAuthStore } from '~/stores/myAuthStore'
+import { initModals } from 'flowbite'
+import QRious from 'qrious'
 import config from '~/config'
 definePageMeta({
   middleware: 'auth-user',
@@ -11,6 +13,7 @@ const { $axiosAuth: axios } = useNuxtApp()
 const authStore = useAuthStore()
 const userInfo = ref({})
 const userDetail = ref({})
+const qrUserIdEl = ref()
 const kelasUserInfo = reactive({
   onGoing: [],
   finished: []
@@ -21,6 +24,7 @@ const profileImageSrc = computed(() => {
 })
 
 onMounted(async () => {
+  initModals()
   userInfo.value = await authStore.getUserInfo
 
   const responseUserDetail = (await axios.get('/users/detail'))?.data?.data
@@ -34,6 +38,10 @@ onMounted(async () => {
       kelasUserInfo.finished.push(kelasUser)
     }
   })
+  new QRious({
+    element: qrUserIdEl.value,
+    value: responseUserDetail.id
+  })
 })
 </script>
 
@@ -42,10 +50,10 @@ onMounted(async () => {
   @apply mb-6 border-b border-gray-100 pb-2;
 }
 .detail h3 {
-  @apply font-semibold text-lg;
+  @apply font-semibold md:text-lg;
 }
 .detail p {
-  @apply text-lg font-light;
+  @apply md:text-lg font-light;
 }
 .kelas-info {
   @apply flex text-4xl items-center gap-4 justify-center;
@@ -60,7 +68,34 @@ onMounted(async () => {
 
 <template>
   <div>
-    <div class="bg-white w-full p-8 shadow-md rounded-md">
+    <Teleport to="body">
+      <div id="qrModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-sm max-h-full">
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <div class="p-4 flex justify-center items-center">
+              <canvas ref="qrUserIdEl" class="w-40"></canvas>
+            </div>
+            <div class="flex items-center rounded-b-lg overflow-hidden dark:border-gray-600">
+              <button
+                data-modal-hide="qrModal"
+                type="button"
+                class="text-white bg-red-600 w-full hover:bg-red-700 focus:outline-none focus:ring-0 border-0 text-sm font-medium py-3 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-700"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
+
+    <div class="bg-white w-full p-4 sm:p-8 shadow-md rounded-md">
+      <div class="flex justify-between items-center">
+        <NuxtLink to="#" class="py-1 px-3 rounded text-blue-500 border border-blue-500 hover:bg-blue-100">Edit</NuxtLink>
+        <button data-modal-target="qrModal" data-modal-toggle="qrModal" class="py-1 px-3 rounded text-orange-500 border border-orange-500 hover:bg-orange-100">
+          <div class="flex justify-center items-center gap-2"><IconsQr class="text-orange-500" /> <span class="hidden sm:block">User ID</span></div>
+        </button>
+      </div>
       <div class="flex flex-col text-center items-center justify-center gap-8 py-4">
         <div class="max-w-[150px] overflow-hidden rounded-full">
           <img :src="profileImageSrc" alt="profile" :title="`${userDetail?.nama} Profile`" />
@@ -72,14 +107,16 @@ onMounted(async () => {
       </div>
       <div class="border border-slate-100 rounded mt-4">
         <div class="flex justify-between items-center p-4 px-8 border-b border-slate-100">
-          <h2 class="text-lg font-bold">Informasi Detail</h2>
+          <h2 class="md:text-lg font-semibold md:font-bold">Informasi Detail</h2>
           <IconsUserDetail class="w-6 h-6" />
         </div>
         <div class="flex flex-col md:flex-row md:justify-between">
           <div class="p-8 flex-[2]">
             <div class="detail">
-              <h3>ID</h3>
-              <p>{{ userDetail?.id }}</p>
+              <div>
+                <h3>ID</h3>
+                <p>{{ userDetail?.id }}</p>
+              </div>
             </div>
             <div class="detail">
               <h3>Username</h3>

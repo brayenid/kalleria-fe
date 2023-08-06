@@ -16,7 +16,7 @@ const authStore = useAuthStore()
       <NavbarUsersPopup />
     </div>
     <div v-else>
-      <ul class="flex gap-2 mr-4">
+      <ul class="hidden md:flex gap-2 mr-4">
         <li>
           <NuxtLink class="link" to="/register">Daftar</NuxtLink>
         </li>

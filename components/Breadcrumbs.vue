@@ -28,8 +28,6 @@ const capitalizeEveryWord = (string) => {
 }
 </script>
 
-<style lang="scss" scoped></style>
-
 <template>
   <div>
     <nav class="flex px-5 py-3 text-gray-700 rounded-md bg-white mb-4 shadow-sm dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">

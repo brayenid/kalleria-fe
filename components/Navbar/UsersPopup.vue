@@ -74,7 +74,7 @@ button.as-link {
   <div>
     <button
       type="button"
-      class="flex mr-3 text-sm border-[2px] border-blue-300 bg-transparent rounded-full md:mr-0 focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 p-[2px]"
+      class="flex mr-3 text-sm border-[2px] border-blue-300 bg-transparent rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 p-[2px]"
       id="user-menu-button"
       aria-expanded="false"
       data-dropdown-toggle="user-dropdown"
