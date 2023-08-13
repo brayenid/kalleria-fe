@@ -29,7 +29,7 @@ const signOut = async () => {
       showConfirmButton: false
     })
     authStore.$patch({ accessToken: '' })
-    return navigateTo('/login')
+    window.location.replace('/login')
   } catch (error) {
     const err = error.response.data.message
     Swal.fire({

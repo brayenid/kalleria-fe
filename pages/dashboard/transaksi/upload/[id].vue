@@ -14,6 +14,7 @@ const isFormCanBeSendByStatus = computed(() => {
 const isFileSizeExceed = computed(() => {
   return fileSize.value >= 500000 ? true : false
 })
+const isUploading = ref(false)
 
 const fileInputEl = ref()
 const route = useRoute()
@@ -52,6 +53,7 @@ const submitForm = async () => {
       cancelButtonText: 'Batal'
     })
     if (isConfirmed) {
+      isUploading.value = true
       const formData = new FormData()
       const file = fileInputEl.value.files[0]
       formData.append('buktiBayar', file)
@@ -65,17 +67,18 @@ const submitForm = async () => {
         showCloseButton: true
       })
       isFormCanBeSendByStatus.value = false
+      isUploading.value = false
       await navigateTo('/dashboard/transaksi')
     }
   } catch (error) {
     const err = error.response.data.message
-
     Swal.fire({
       icon: 'error',
       title: 'Oops',
       text: err,
       showCloseButton: true
     })
+    isUploading.value = false
   }
 }
 
@@ -101,6 +104,7 @@ onMounted(async () => {
 </style>
 <template>
   <div>
+    <Loading v-if="isUploading" />
     <Breadcrumbs :path="route.path" last-point="Unggah Bukti Bayar" />
     <section class="bg-white dark:bg-gray-900 rounded shadow">
       <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16">

@@ -11,7 +11,10 @@ export default defineNuxtConfig({
     }
   },
   pages: true,
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-swiper', '@nuxt/image'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-swiper', '@nuxt/image', 'nuxt-simple-sitemap'],
+  sitemap: {
+    exclude: ['/admin/**', '/dashboard/**', '/sudo/**', '/print/**']
+  },
   css: ['~/assets/css/main.css', '@vuepic/vue-datepicker/dist/main.css'],
   pinia: {
     autoImports: ['defineStore']

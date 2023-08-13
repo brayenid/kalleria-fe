@@ -15,6 +15,7 @@ const isFileSizeExceed = computed(() => {
 })
 const fileName = ref('Belum ada file')
 const fileSize = ref(0)
+const isUploading = ref(false)
 
 const formatFileSize = (bytes) => {
   if (bytes === 0) return '0 Bytes'
@@ -51,6 +52,8 @@ const submitForm = async (e) => {
     })
 
     if (isConfirmed) {
+      isUploading.value = true
+
       await axios.post('/admins/kelas', addKelasPayload)
       Swal.fire({
         icon: 'success',
@@ -60,6 +63,7 @@ const submitForm = async (e) => {
         timer: 1000
       })
       addKelasEl.value.reset()
+      isUploading.value = false
       previewImageFile.value = ''
       showPreview.value = false
       fileName.value = 'Belum ada file'
@@ -73,6 +77,7 @@ const submitForm = async (e) => {
       text: err,
       showCancelButton: true
     })
+    isUploading.value = false
   }
 }
 </script>
@@ -80,6 +85,7 @@ const submitForm = async (e) => {
 <style lang="scss" scoped></style>
 <template>
   <div>
+    <Loading v-if="isUploading" />
     <Breadcrumbs :path="route.path" last-point="tambah kelas" :start-index="2" :slice-link="2" />
     <section class="bg-white dark:bg-gray-900 rounded shadow">
       <div class="p-8 mx-auto max-w-2xl lg:py-16">

@@ -16,6 +16,7 @@ const isFileSizeExceed = computed(() => {
 })
 const fileName = ref('Belum ada perubahan thumbnail')
 const fileSize = ref(0)
+const isUploading = ref(false)
 
 const formatFileSize = (bytes) => {
   if (bytes === 0) return '0 Bytes'
@@ -52,6 +53,7 @@ const submitForm = async (e) => {
     })
 
     if (isConfirmed) {
+      isUploading.value = true
       await axios.put(`/admins/kelas/${route.params.id}`, putKelasPayload)
       Swal.fire({
         icon: 'success',
@@ -61,10 +63,13 @@ const submitForm = async (e) => {
         timer: 1000
       })
       putKelasEl.value.reset()
+      isUploading.value = false
       await navigateTo('/admin/dashboard/kelas')
     }
   } catch (error) {
     const err = error.response.data.message
+    isUploading.value = false
+
     Swal.fire({
       icon: 'error',
       title: 'Oops',
@@ -89,6 +94,7 @@ onMounted(async () => {
 <style lang="scss" scoped></style>
 <template>
   <div>
+    <Loading v-if="isUploading" />
     <Breadcrumbs :path="route.path" :last-point="kelasDetail?.namaKelas" :start-index="2" :slice-link="2" />
     <section class="bg-white dark:bg-gray-900 rounded shadow">
       <div class="p-8 mx-auto max-w-2xl lg:py-16">
