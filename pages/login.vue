@@ -12,7 +12,7 @@ definePageMeta({
 <style scoped></style>
 
 <template>
-  <div class="flex justify-center items-center p-8">
+  <div class="flex justify-center items-center p-8 min-h-[80vh]">
     <LoginForm />
   </div>
 </template>
