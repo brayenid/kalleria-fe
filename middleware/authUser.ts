@@ -5,29 +5,25 @@ import jwt_decode from 'jwt-decode'
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const { $axios: axios, $axiosAuth: axiosAuth } = useNuxtApp()
   const authStore = useAuthStore()
+  const role = useCookie('role')
+
   if (!authStore.accessToken) {
-    try {
-      const { data }: AxiosResponse<any> = await axios.get('/auth/user', {
-        withCredentials: true
-      })
-
-      authStore.$patch({ accessToken: data.data.accessToken })
-
-      return navigateTo(to.fullPath)
-    } catch (error) {
-      return navigateTo('/login')
-    }
+    return navigateTo('/login')
   }
 
-  const userRole: any = await authStore?.getUserInfo
-  if (userRole?.role !== 'user') {
+  if (role.value !== 'user') {
     return navigateTo('/')
   }
 
-  const response: boolean = (await axiosAuth.get('/transaksi/notify')).data.data
-  authStore.$patch({ isNotifyTransaksi: response })
+  try {
+    const response: boolean = (await axiosAuth.get('/transaksi/notify'))?.data?.data
+    authStore.$patch({ isNotifyTransaksi: response })
+  } catch (error: any) {
+    console.log(error.message)
+  }
 
   const decoded: any = jwt_decode(authStore.accessToken)
+
   const currentTime = new Date().getTime()
   const isCurrentTokenExpired = decoded.exp * 1000 < currentTime
 
@@ -38,8 +34,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       })
 
       authStore.$patch({ accessToken: data.data.accessToken })
-    } catch (error) {
-      return navigateTo('/login')
+    } catch (error: any) {
+      console.log(error.message)
+      authStore.$patch({ accessToken: '' })
+      await navigateTo('/login')
     }
   }
 })

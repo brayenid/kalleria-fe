@@ -1,9 +1,9 @@
 <script setup>
-import config from '~/config'
 const props = defineProps({
   endpoint: String,
-  deleteItem: String,
-  message: String
+  message: String,
+  redirect: String,
+  after: Function
 })
 const { $axiosAuth: axios, $Swal: Swal } = useNuxtApp()
 const deleteItem = async () => {
@@ -18,15 +18,17 @@ const deleteItem = async () => {
   })
   if (isConfirmed) {
     try {
-      await axios.delete(`${config.API_BASE_URL}/${props.endpoint}`)
+      await axios.delete(`${useRuntimeConfig().public.beEndpoint}/${props.endpoint}`)
       Swal.fire({
         icon: 'success',
         title: 'Berhasil',
         text: 'Item telah dihapus',
         showConfirmButton: true
       })
-      await navigateTo('/admin/dashboard/kelas')
+      if (props.after) await props.after()
+      props.redirect && (await navigateTo(props.redirect))
     } catch (error) {
+      console.log(error)
       Swal.fire({
         icon: 'error',
         title: 'Oops',

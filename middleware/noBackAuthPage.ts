@@ -1,12 +1,12 @@
 import { useAuthStore } from '~/stores/myAuthStore'
 
-export default defineNuxtRouteMiddleware((to, from) => {
+export default defineNuxtRouteMiddleware(async (to, from) => {
   const authStore = useAuthStore()
 
   if (authStore.accessToken) {
     if (to.fullPath === from.fullPath) {
-      return navigateTo('/')
+      await navigateTo('/')
     }
-    return navigateTo(from.fullPath)
+    await navigateTo(from.fullPath)
   }
 })

@@ -1,0 +1,19 @@
+:root {
+  /*General*/
+  --dp-font-family: 'Poppins', sans-serif;
+  --dp-border-radius: 0.5rem; /*Configurable border-radius*/
+  --dp-cell-border-radius: 4px; /*Specific border radius for the calendar cell*/
+  /*Sizing*/
+  --dp-input-padding: 10px; /*Padding in the input*/
+  /*Font sizes*/
+  --dp-font-size: 0.85rem; /*Default font-size*/
+
+  /*Transitions*/
+  --dp-animation-duration: 0.1s; /*Transition duration*/
+  --dp-menu-appear-transition-timing: cubic-bezier(0.4, 0, 1, 1); /*Timing on menu appear animation*/
+  --dp-transition-timing: ease-out; /*Timing on slide animations*/
+}
+
+.dp__theme_light {
+  --dp-background-color: #f9fafb;
+}

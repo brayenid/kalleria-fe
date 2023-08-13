@@ -3,24 +3,16 @@ import { useAuthStore } from '~/stores/myAuthStore'
 import jwt_decode from 'jwt-decode'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const { $axios: axios, $axiosAuth: axiosAuth } = useNuxtApp()
+  const { $axios: axios } = useNuxtApp()
+  const role = useCookie('role')
+
   const authStore = useAuthStore()
+
   if (!authStore.accessToken) {
-    try {
-      const { data }: AxiosResponse<any> = await axios.get('/auth/admin', {
-        withCredentials: true
-      })
-
-      authStore.$patch({ accessToken: data.data.accessToken })
-
-      return navigateTo(to.fullPath)
-    } catch (error) {
-      return navigateTo('/login')
-    }
+    return navigateTo('/login')
   }
 
-  const userRole: any = await authStore?.getUserInfo
-  if (userRole?.role !== 'admin') {
+  if (role.value !== 'admin' && role.value !== 'sudo') {
     return navigateTo('/')
   }
 
@@ -30,12 +22,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (isCurrentTokenExpired) {
     try {
-      const { data }: AxiosResponse<any> = await axios.get('/auth/admin', {
+      const { data }: AxiosResponse<any> = await axios.get(`/auth/${role.value}`, {
         withCredentials: true
       })
 
       authStore.$patch({ accessToken: data.data.accessToken })
-    } catch (error) {
+    } catch (error: any) {
+      console.log(error.message)
+      authStore.$patch({ accessToken: '' })
       return navigateTo('/login')
     }
   }

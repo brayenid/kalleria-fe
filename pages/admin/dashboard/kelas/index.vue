@@ -1,5 +1,4 @@
 <script setup>
-import config from '~/config'
 import { usePaginationStore } from '~/stores/myPaginationStore'
 
 definePageMeta({
@@ -16,7 +15,7 @@ const kelasListEl = ref()
 
 // PAGINATION MANDATORY STATE
 const pageNumber = ref(paginationStore.pageNumberKelasAdmin)
-const pageSize = 4
+const pageSize = 6
 const rowsTotal = ref(0)
 
 // PAGINATION MANDATORY FUNC
@@ -65,17 +64,17 @@ onMounted(async () => {
           <h2 class="mb-4 text-3xl lg:text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">Daftar Kelas</h2>
         </div>
         <div class="min-h-[300px]">
-          <div class="grid gap-8 lg:grid-cols-2">
-            <article class="kelas-list" v-for="kelas in kelasList" :key="kelas.id">
+          <div class="grid gap-8 lg:grid-cols-2 xl:grid-cols-3 mb-6">
+            <article v-if="kelasList.length" class="kelas-list" v-for="kelas in kelasList" :key="kelas.id">
               <div class="flex justify-between items-center mb-5 text-gray-500">
                 <span class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
                   <IconsTag class="!w-4 !h-4 mr-2" />
                   {{ kelas.tipeKelas }}
                 </span>
               </div>
-              <div class="max-h-[200px] min-h-[180px] overflow-hidden flex items-center justify-center my-5 rounded-md">
+              <div class="h-[160px] overflow-hidden flex items-center justify-center my-5 rounded-md">
                 <NuxtLink :to="`/admin/dashboard/kelas/detail/${kelas.id}`">
-                  <img :src="`${config.API_BASE_URL}/${kelas.thumbnailKelas}`" class="object-center" :alt="kelas.namaKelas" />
+                  <img :src="`${useRuntimeConfig().public.beEndpoint}/${kelas.thumbnailKelas}`" class="object-center" :alt="kelas.namaKelas" />
                 </NuxtLink>
               </div>
               <h2 class="mb-4 text-2xl font-semibold tracking-tight text-gray-800 dark:text-white">
@@ -90,9 +89,12 @@ onMounted(async () => {
                 </NuxtLink>
               </div>
             </article>
+            <div v-else-if="!kelasList.length && !isLoading" class="w-full col-span-3">
+              <NotFoundBoy message="Belum Ada Kelas!" />
+            </div>
           </div>
           <div v-if="isLoading">
-            <UserDashboardKelasSkeleton :number-of-skeleton="4" />
+            <UserDashboardKelasSkeleton :number-of-skeleton="6" />
           </div>
           <Paginations :page-number="paginationStore.pageNumberKelasAdmin" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
         </div>

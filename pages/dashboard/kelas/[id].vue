@@ -1,5 +1,4 @@
 <script setup>
-import config from '~/config'
 import { useAuthStore } from '~/stores/myAuthStore'
 definePageMeta({
   middleware: 'auth-user',
@@ -92,7 +91,7 @@ onMounted(async () => {
       <div class="flex flex-col gap-4 bg-white p-6 rounded-md shadow lg:flex-row">
         <div class="flex-[1]">
           <div class="overflow-hidden h-min rounded-md" v-if="kelasDetail.thumbnailKelas !== null">
-            <img :src="`${config.API_BASE_URL}/${kelasDetail?.thumbnailKelas}`" :alt="kelasDetail?.namaKelas" />
+            <img :src="`${useRuntimeConfig().public.beEndpoint}/${kelasDetail?.thumbnailKelas}`" :alt="kelasDetail?.namaKelas" />
           </div>
           <div>
             <button

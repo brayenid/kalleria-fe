@@ -1,5 +1,8 @@
 <script setup>
 import { initDropdowns, initCollapses } from 'flowbite'
+import { useAuthStore } from '~/stores/myAuthStore'
+
+const authStore = useAuthStore()
 
 onMounted(() => {
   initCollapses()
@@ -15,8 +18,8 @@ onMounted(() => {
 
 <template>
   <div>
-    <nav class="bg-white border-gray-200 dark:bg-gray-900 fixed w-full top-0 z-40 shadow-md shadow-slate-100">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <nav class="backdrop-blur-md bg-white/70 fixed w-full top-0 z-40">
+      <div class="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto p-4">
         <NavbarTitleLogo title-text="Kalleria" />
         <div class="flex items-center lg:order-2">
           <NavbarUsersArea />
@@ -32,23 +35,23 @@ onMounted(() => {
           </button>
         </div>
         <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="navbar-user">
-          <ul class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
+          <ul class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 lg:bg-transparent">
             <li>
-              <NuxtLink to="/" class="menu_link" aria-current="page">Beranda</NuxtLink>
-            </li>
-            <li>
-              <NuxtLink to="/register" class="menu_link">Tentang</NuxtLink>
+              <a href="/#about" v-scroll-to="{ element: '#about', offset: -65 }" class="menu_link">Tentang</a>
             </li>
             <li>
-              <a href="#" class="menu_link">Kelas</a>
+              <a href="/#products" v-scroll-to="{ element: '#products', offset: -65 }" class="menu_link">Kelas</a>
             </li>
             <li>
-              <a href="#" class="menu_link">Informasi Pendaftaran</a>
+              <a href="/#faq" v-scroll-to="{ element: '#faq', offset: -63 }" class="menu_link">FAQ</a>
             </li>
-            <li class="block md:hidden">
-              <NuxtLink to="/register" class="menu_link">Daftar</NuxtLink>
+            <li>
+              <NuxtLink to="/tutorial/daftar" class="menu_link">Cara Mendaftar</NuxtLink>
             </li>
-            <li class="block md:hidden">
+            <li v-if="!authStore.accessToken" class="block md:hidden">
+              <NuxtLink to="/daftar" class="menu_link">Daftar</NuxtLink>
+            </li>
+            <li v-if="!authStore.accessToken" class="block md:hidden">
               <NuxtLink to="/login" class="menu_link">Masuk</NuxtLink>
             </li>
           </ul>

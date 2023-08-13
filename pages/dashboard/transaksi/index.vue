@@ -37,14 +37,12 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss" scoped></style>
-
 <template>
   <div>
     <Breadcrumbs :path="route.path" last-point="Transaksi" />
     <div class="relative overflow-x-auto shadow rounded-md">
       <div class="h-[400px] overflow-y-auto">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-2 py-3"></th>
@@ -64,11 +62,25 @@ onMounted(async () => {
               <td class="px-4 py-4">{{ transaksi?.namaTransaksi }}</td>
               <td class="px-4 py-4">{{ transaksi?.kelasId }}</td>
               <td class="px-4 py-4">{{ useCurrency(transaksi?.hargaKelas) }}</td>
-              <td class="px-4 py-4">{{ transaksi?.status }}</td>
+              <td class="px-4 py-4">
+                <span
+                  class="p-1 rounded"
+                  :class="{
+                    'bg-orange-100 text-orange-600': transaksi?.status === 'pending',
+                    'bg-green-100 text-green-600': transaksi?.status === 'dibayar',
+                    'bg-blue-100 text-blue-600': transaksi?.status === 'diterima',
+                    'bg-red-100 text-red-600': transaksi?.status === 'ditolak'
+                  }"
+                  >{{ transaksi?.status }}</span
+                >
+              </td>
               <td class="px-4 py-4">{{ useShortenDate(transaksi?.updatedAt) }}</td>
               <td class="px-4 py-4">
                 <div v-if="transaksi?.status === 'pending' || transaksi?.status === 'ditolak'">
                   <NuxtLink :to="`/dashboard/transaksi/upload/${transaksi?.id}`" class="font-medium text-blue-500 dark:text-blue-500 hover:underline">Kirim Bukti Bayar</NuxtLink>
+                </div>
+                <div v-if="transaksi?.status === 'diterima'">
+                  <a :href="`/print/transaksi/${transaksi?.id}`" target="_blank" class="font-medium text-blue-500 dark:text-blue-500 hover:underline">Cetak Transaksi</a>
                 </div>
               </td>
             </tr>

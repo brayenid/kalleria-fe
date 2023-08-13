@@ -60,6 +60,10 @@ const submitForm = async (e) => {
         timer: 1000
       })
       addKelasEl.value.reset()
+      previewImageFile.value = ''
+      showPreview.value = false
+      fileName.value = 'Belum ada file'
+      fileSize.value = 0
     }
   } catch (error) {
     const err = error.response.data.message

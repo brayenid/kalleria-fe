@@ -1,7 +1,6 @@
 <script setup>
 import { initDropdowns, initCollapses } from 'flowbite'
 import { useAuthStore } from '~/stores/myAuthStore'
-import config from '../../config'
 
 const authStore = useAuthStore()
 const { $Swal: Swal, $axiosAuth: axios } = useNuxtApp()
@@ -13,7 +12,7 @@ const userInfo = reactive({
 })
 
 const profileImageSrc = computed(() => {
-  return userInfo.urlImage ? `${config.API_BASE_URL}/${userInfo.urlImage}` : '/svg/blank-profile.svg'
+  return userInfo.urlImage ? `${useRuntimeConfig().public.beEndpoint}/${userInfo.urlImage}` : '/svg/blank-profile.svg'
 })
 
 const signOut = async () => {
@@ -29,7 +28,7 @@ const signOut = async () => {
       timerProgressBar: true,
       showConfirmButton: false
     })
-    authStore.$patch({ accessToken: null })
+    authStore.$patch({ accessToken: '' })
     return navigateTo('/login')
   } catch (error) {
     const err = error.response.data.message
@@ -81,7 +80,9 @@ button.as-link {
       data-dropdown-placement="bottom"
     >
       <span class="sr-only">Open user menu</span>
-      <img class="w-8 h-8 rounded-full" :src="profileImageSrc" alt="profile photo" />
+      <div class="w-8 h-8 rounded-full overflow-hidden flex justify-center items-center">
+        <img class="object-cover h-full" :src="profileImageSrc" alt="profile photo" />
+      </div>
     </button>
     <!-- Dropdown menu -->
     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
@@ -96,7 +97,9 @@ button.as-link {
         <li>
           <div>
             <NuxtLink v-if="userInfo?.role === 'user'" to="/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</NuxtLink>
-            <NuxtLink v-else-if="userInfo?.role === 'admin'" to="/admin/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</NuxtLink>
+            <NuxtLink v-else-if="userInfo?.role === 'admin' || userInfo?.role === 'sudo'" to="/admin/dashboard" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+              >Dashboard</NuxtLink
+            >
           </div>
         </li>
         <li>

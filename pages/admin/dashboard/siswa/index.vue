@@ -12,7 +12,7 @@ const paginationStore = usePaginationStore()
 const usersList = ref([])
 // PROPERTY WAJIB PAGINATION COMP
 const pageNumber = ref(paginationStore.pageNumberUsers)
-const pageSize = 10
+const pageSize = 2
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
@@ -53,9 +53,11 @@ onMounted(async () => {
 
 <template>
   <div>
-    <Breadcrumbs :path="route.path" last-point="Daftar Siswa" />
+    <Breadcrumbs :path="route.path" last-point="Daftar Siswa" :start-index="2" :slice-link="2" />
     <div class="relative overflow-x-auto shadow rounded-md">
-      <SearchInput :search-func="debounceSearch" placeholder-search="Cari: id, nama, username..." />
+      <div class="p-2 bg-white">
+        <SearchInput :search-func="debounceSearch" placeholder-search="Cari : id, nama, username..." />
+      </div>
       <div class="h-[400px] overflow-y-auto">
         <table class="w-full text-sm text-left border-t border-gray-100 text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
@@ -76,7 +78,7 @@ onMounted(async () => {
               <td class="px-4 py-4">{{ user?.asalSekolah }}</td>
               <td class="px-4 py-4">{{ new Date(user?.createdAt).getFullYear() }}</td>
               <td class="px-4 py-4">
-                <NuxtLink to="#" class="font-medium text-blue-500 dark:text-blue-500 hover:underline">Detail</NuxtLink>
+                <NuxtLink :to="`/admin/dashboard/siswa/${user?.id}`" class="font-medium text-blue-500 dark:text-blue-500 hover:underline">Detail</NuxtLink>
               </td>
             </tr>
             <tr v-else>

@@ -1,8 +1,6 @@
 <script setup>
 import { useAuthStore } from '~/stores/myAuthStore'
 import { initModals } from 'flowbite'
-import QRious from 'qrious'
-import config from '~/config'
 definePageMeta({
   middleware: 'auth-user',
   layout: 'user-dashboard'
@@ -13,14 +11,13 @@ const { $axiosAuth: axios } = useNuxtApp()
 const authStore = useAuthStore()
 const userInfo = ref({})
 const userDetail = ref({})
-const qrUserIdEl = ref()
 const kelasUserInfo = reactive({
   onGoing: [],
   finished: []
 })
 
 const profileImageSrc = computed(() => {
-  return userDetail.value.urlFoto ? `${config.API_BASE_URL}/${userDetail.value.urlFoto}` : '/svg/blank-profile.svg'
+  return userDetail.value.urlFoto ? `${useRuntimeConfig().public.beEndpoint}/${userDetail.value.urlFoto}` : '/svg/blank-profile.svg'
 })
 
 onMounted(async () => {
@@ -28,19 +25,14 @@ onMounted(async () => {
   userInfo.value = await authStore.getUserInfo
 
   const responseUserDetail = (await axios.get('/users/detail'))?.data?.data
-
   userDetail.value = responseUserDetail
   const responseKelasUser = (await axios.get('/kelasuser/user'))?.data?.data
-  responseKelasUser?.map((kelasUser) => {
+  responseKelasUser.rows?.map((kelasUser) => {
     if (kelasUser?.presensi < kelasUser?.maksimalPertemuan) {
       kelasUserInfo.onGoing.push(kelasUser)
     } else {
       kelasUserInfo.finished.push(kelasUser)
     }
-  })
-  new QRious({
-    element: qrUserIdEl.value,
-    value: responseUserDetail.id
   })
 })
 </script>
@@ -64,41 +56,28 @@ onMounted(async () => {
 .kelas-container p {
   @apply text-lg font-light;
 }
+.container {
+  background: rgb(255, 255, 255);
+  background: -moz-linear-gradient(360deg, rgba(255, 255, 255, 1) 83%, rgba(246, 254, 255, 1) 100%);
+  background: -webkit-linear-gradient(360deg, rgba(255, 255, 255, 1) 83%, rgba(246, 254, 255, 1) 100%);
+  background: linear-gradient(360deg, rgba(255, 255, 255, 1) 83%, rgba(246, 254, 255, 1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#f6feff",GradientType=1);
+}
 </style>
 
 <template>
-  <div>
-    <Teleport to="body">
-      <div id="qrModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        <div class="relative w-full max-w-sm max-h-full">
-          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <div class="p-4 flex justify-center items-center">
-              <canvas ref="qrUserIdEl" class="w-40"></canvas>
-            </div>
-            <div class="flex items-center rounded-b-lg overflow-hidden dark:border-gray-600">
-              <button
-                data-modal-hide="qrModal"
-                type="button"
-                class="text-white bg-red-600 w-full hover:bg-red-700 focus:outline-none focus:ring-0 border-0 text-sm font-medium py-3 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-700"
-              >
-                Tutup
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </Teleport>
-
-    <div class="bg-white w-full p-4 sm:p-8 shadow-md rounded-md">
+  <div class="relative">
+    <ModalQr />
+    <div class="container w-full border border-gray-200 p-4 sm:p-8 shadow-md rounded-md">
       <div class="flex justify-between items-center">
-        <NuxtLink to="#" class="py-1 px-3 rounded text-blue-500 border border-blue-500 hover:bg-blue-100">Edit</NuxtLink>
-        <button data-modal-target="qrModal" data-modal-toggle="qrModal" class="py-1 px-3 rounded text-orange-500 border border-orange-500 hover:bg-orange-100">
+        <NuxtLink to="/dashboard/akun" class="py-1 px-3 rounded text-blue-500 border border-blue-500 hover:bg-blue-50">Edit</NuxtLink>
+        <button data-modal-target="qrModal" data-modal-toggle="qrModal" class="py-1 px-3 rounded text-orange-500 border border-orange-500 outline-none hover:bg-orange-50">
           <div class="flex justify-center items-center gap-2"><IconsQr class="text-orange-500" /> <span class="hidden sm:block">User ID</span></div>
         </button>
       </div>
       <div class="flex flex-col text-center items-center justify-center gap-8 py-4">
-        <div class="max-w-[150px] overflow-hidden rounded-full">
-          <img :src="profileImageSrc" alt="profile" :title="`${userDetail?.nama} Profile`" />
+        <div class="w-40 h-40 overflow-hidden rounded-full flex justify-center items-center border-4 border-transparent ring-4 ring-blue-400">
+          <img :src="profileImageSrc" class="object-cover h-full" alt="profile" :title="`${userDetail?.nama} Profile`" />
         </div>
         <div>
           <h2 class="text-xl font-semibold mb-1">{{ userDetail?.nama }}</h2>
@@ -140,7 +119,7 @@ onMounted(async () => {
             </div>
             <div class="detail">
               <h3>Nomor Telepon</h3>
-              <p>{{ userDetail?.nomorTelepon }}</p>
+              <p>{{ userDetail?.noTelepon }}</p>
             </div>
             <div class="detail">
               <h3>Asal Sekolah</h3>

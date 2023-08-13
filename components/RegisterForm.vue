@@ -1,4 +1,7 @@
 <script setup>
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '~/assets/css/datepicker.css'
+
 const { $Swal, $axios: axios } = useNuxtApp()
 
 const termsAgreed = ref(false)
@@ -7,19 +10,34 @@ const password = ref('')
 const confirmPassword = ref('')
 const confirmPasswordEl = ref()
 const registerFormEl = ref()
+const tanggalLahir = ref('')
 
 const errorMessages = reactive({
   username: null,
-  password: null
+  password: null,
+  confPassword: null
 })
 
 const isPasswordMatch = () => {
   if (password.value !== confirmPassword.value) {
-    errorMessages.password = 'Password tidak sama'
+    errorMessages.confPassword = 'Password tidak sama'
+    return false
+  }
+  errorMessages.confPassword = ''
+  return true
+}
+
+const isPasswordValid = () => {
+  if (password.value.length < 8) {
+    errorMessages.password = 'Minimal 8 karakter, terdapat 1 angka, dan 1 huruf kapital.'
+    return false
+  }
+
+  if (!/[A-Z]/.test(password.value) || !/[0-9]/.test(password.value)) {
+    errorMessages.password = 'Minimal 8 karakter, terdapat 1 angka, dan 1 huruf kapital.'
     return false
   }
   errorMessages.password = ''
-
   return true
 }
 
@@ -32,9 +50,11 @@ const alertPopup = ({ icon, title, text }) => {
 }
 
 const submitForm = async (e) => {
-  const registerPayload = Object.fromEntries(new FormData(e.target))
+  const formData = new FormData(e.target)
+  formData.append('tanggalLahir', tanggalLahir.value)
+  const registerPayload = Object.fromEntries(formData)
 
-  if (!isPasswordMatch()) {
+  if (!isPasswordMatch() || !isPasswordValid()) {
     alertPopup({ title: 'Oops..', text: 'Ada kesalahan pada password, silahkan perbaiki.' })
     return
   }
@@ -81,6 +101,12 @@ form.register button {
 }
 </style>
 
+<style lang="postcss">
+.dp-custom {
+  @apply bg-white border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+}
+</style>
+
 <template>
   <div>
     <h1 class="text-center text-lg font-semibold mb-10">Daftar Akun</h1>
@@ -114,7 +140,21 @@ form.register button {
         </div>
         <div>
           <label class="labelbio" for="tanggalLahir">Tanggal Lahir</label>
-          <input name="tanggalLahir" class="bio" type="date" id="tanggalLahir" placeholder="Masukan tanggal lahir" required />
+          <VueDatePicker
+            id="tanggalLahir"
+            input-class-name="dp-custom"
+            v-model="tanggalLahir"
+            placeholder="Masukan tanggal lahir"
+            :enable-time-picker="false"
+            :auto-apply="true"
+            format="dd/MM/yyyy"
+            preview-format="dd/MM/yyyy"
+            text-input
+            model-type="dd/MM/yyyy"
+            :max-date="new Date()"
+            :text-input-options="{ format: 'dd/MM/yyyy', enterSubmit: true }"
+            :hide-input-icon="true"
+          ></VueDatePicker>
         </div>
         <div>
           <label class="labelbio" for="alamat">Alamat</label>
@@ -133,12 +173,14 @@ form.register button {
           <input name="asalSekolah" class="bio" type="text" id="asalSekolah" placeholder="Masukan asal sekolah" required />
         </div>
         <div>
-          <label class="labelbio" for="password">Password</label>
-          <input name="password" class="bio" type="password" id="password" placeholder="Masukan password" v-model="password" required />
+          <label class="labelbio" for="password"
+            >Password <span class="font-normal text-red-600" v-show="errorMessages.password">({{ errorMessages.password }})</span></label
+          >
+          <input @input="isPasswordValid" name="password" class="bio" type="password" id="password" placeholder="Masukan password" v-model="password" required />
         </div>
         <div>
           <label class="labelbio" for="confirm_password"
-            >Konfirmasi Password <span class="font-normal text-red-600" v-show="errorMessages.password">({{ errorMessages.password }})</span></label
+            >Konfirmasi Password <span class="font-normal text-red-600" v-show="errorMessages.confPassword">({{ errorMessages.confPassword }})</span></label
           >
           <input name="" class="bio" type="password" id="confirm_password" placeholder="Masukan password sekali lagi" v-model="confirmPassword" ref="confirmPasswordEl" @input="isPasswordMatch" required />
         </div>
@@ -154,7 +196,9 @@ form.register button {
             required
           />
         </div>
-        <label for="terms" class="ml-2 text-xs font-medium text-gray-900 dark:text-gray-300">Saya memasukan data yang valid dan menyetujui <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">persyaratan layanan</a>.</label>
+        <label for="terms" class="ml-2 text-xs font-medium text-gray-900 dark:text-gray-300"
+          >Saya memasukan data yang valid dan menyetujui <a href="/tos" target="_blank" class="text-blue-600 hover:underline dark:text-blue-500">persyaratan layanan</a>.</label
+        >
       </div>
       <button type="submit">Daftar</button>
     </form>

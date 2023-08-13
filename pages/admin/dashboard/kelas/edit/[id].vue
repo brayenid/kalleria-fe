@@ -1,5 +1,4 @@
 <script setup>
-import config from '~/config'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
@@ -80,7 +79,7 @@ onMounted(async () => {
     const response = (await axios.get(`/kelas/${route.params.id}`)).data.data
     kelasDetail.value = response
     showPreview.value = true
-    previewImageFile.value = `${config.API_BASE_URL}/${response?.thumbnailKelas}`
+    previewImageFile.value = `${useRuntimeConfig().public.beEndpoint}/${response?.thumbnailKelas}`
   } catch (error) {
     throw createError({ statusCode: 404, message: 'Kelas tidak ditemukan', fatal: true })
   }

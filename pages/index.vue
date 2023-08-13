@@ -1,18 +1,22 @@
 <script setup>
 useSeoMeta({
-  description: 'LPK Kutai Barat yang membimbing sampai siap kerja',
+  description: 'Lembaga Pendidikan, Pelatihan, dan Kursus siap kerja dan terlengkap di Kutai Barat.',
   ogTitle: 'LPK Kalleria',
-  ogDescription: 'LPK Kutai Barat yang membimbing sampai siap kerja'
+  ogDescription: useRuntimeConfig().public.ogDesc,
+  ogImage: useRuntimeConfig().public.ogImage
 })
+
+const getInfoScroll = () => {
+  console.log(window.scrollY)
+}
 </script>
 <template>
-  <div>
-    <img src="/images/attractive-girl.jpg" alt="" />
+  <div @scroll="getInfoScroll">
+    <HomeJumbotron />
+    <HomeAbout />
+    <HomeFeatures />
+    <HomeProducts />
+    <HomeFaq />
+    <HomeCta />
   </div>
 </template>
-
-<style scoped>
-img {
-  width: 200px;
-}
-</style>

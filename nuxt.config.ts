@@ -11,14 +11,31 @@ export default defineNuxtConfig({
     }
   },
   pages: true,
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
-  css: ['~/assets/css/main.css'],
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-swiper', '@nuxt/image'],
+  css: ['~/assets/css/main.css', '@vuepic/vue-datepicker/dist/main.css'],
   pinia: {
     autoImports: ['defineStore']
   },
+  build: {
+    transpile: ['@vuepic/vue-datepicker']
+  },
+  ssr: true,
   routeRules: {
-    '/**': {
-      prerender: true
+    '/sudo/**': {
+      ssr: false
+    },
+    '/admin/**': {
+      ssr: false
+    },
+    '/dashboard/**': {
+      ssr: false
+    }
+  },
+  runtimeConfig: {
+    public: {
+      beEndpoint: process.env.BE_ENDPOINT,
+      ogImage: process.env.OG_IMAGE,
+      ogDesc: process.env.OG_DESC
     }
   }
 })

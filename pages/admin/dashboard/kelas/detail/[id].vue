@@ -1,12 +1,10 @@
 <script setup>
-import config from '~/config'
-import { useAuthStore } from '~/stores/myAuthStore'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
 })
 
-const { $axiosAuth: axios, $Swal: Swal } = useNuxtApp()
+const { $axiosAuth: axios } = useNuxtApp()
 const route = useRoute()
 
 const kelasDetail = ref()
@@ -35,7 +33,7 @@ onMounted(async () => {
       <div class="flex flex-col gap-4 bg-white p-6 rounded-md shadow lg:flex-row">
         <div class="flex-[1]">
           <div class="overflow-hidden h-min rounded-md" v-if="kelasDetail.thumbnailKelas !== null">
-            <img :src="`${config.API_BASE_URL}/${kelasDetail?.thumbnailKelas}`" :alt="kelasDetail?.namaKelas" />
+            <img :src="`${useRuntimeConfig().public.beEndpoint}/${kelasDetail?.thumbnailKelas}`" :alt="kelasDetail?.namaKelas" />
           </div>
         </div>
         <div class="flex-[1] xl:flex-[2]">
@@ -55,7 +53,7 @@ onMounted(async () => {
           >
             Edit
           </NuxtLink>
-          <ButtonDelete class="!w-min sm:!w-full" :endpoint="`admins/kelas/${kelasDetail?.id}`" :delete-item="kelasDetail?.id" message="Kelas yang telah memiliki siswa tidak dapat dihapus!" />
+          <ButtonDelete class="!w-min sm:!w-full" :endpoint="`admins/kelas/${kelasDetail?.id}`" message="Kelas yang telah memiliki siswa tidak dapat dihapus!" redirect="/admin/dashboard/kelas" />
         </div>
       </div>
     </div>

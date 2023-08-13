@@ -3,13 +3,14 @@ import { useAuthStore } from '~/stores/myAuthStore'
 import jwt_decode from 'jwt-decode'
 
 export default defineNuxtPlugin(async () => {
-  axios.defaults.baseURL = 'http://localhost:3000'
+  axios.defaults.baseURL = useRuntimeConfig().public.beEndpoint
   const authStore = useAuthStore()
   const axiosAuth: AxiosInstance = axios.create()
+  const cancelTokenSource = axios.CancelToken.source()
+
   const role = useCookie('role')
 
   // MENDAPATKAN TOKEN PERTAMA
-
   if (role.value) {
     let headers
     if (process.server) {
@@ -31,6 +32,7 @@ export default defineNuxtPlugin(async () => {
       authStore.$patch({ accessToken })
     } catch (error) {
       console.log('see you ...')
+      await navigateTo('/login')
     }
   }
 
@@ -42,13 +44,16 @@ export default defineNuxtPlugin(async () => {
     if (isCurrentTokenExpired) {
       try {
         const { data }: AxiosResponse<any> = await axios.get(`/auth/${role.value}`, {
-          withCredentials: true
+          withCredentials: true,
+          cancelToken: cancelTokenSource.token
         })
 
         authStore.$patch({ accessToken: data.data.accessToken })
         config.headers.Authorization = authStore.getAccessToken
       } catch (error) {
-        console.log('Session over')
+        cancelTokenSource.cancel('Cancel : Session over')
+        authStore.$patch({ accessToken: '' })
+        await navigateTo('/login')
       }
     }
 

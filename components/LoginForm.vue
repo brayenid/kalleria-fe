@@ -1,39 +1,53 @@
 <script setup>
-const { $axios: axios, $Swal } = useNuxtApp()
+import { useAuthStore } from '~/stores/myAuthStore'
+const { $axios: axios, $Swal: Swal } = useNuxtApp()
 
-const alertPopup = ({ icon, title, text }) => {
-  $Swal.fire({
-    icon: icon || 'error',
-    title,
-    text
-  })
-}
-
+const authStore = useAuthStore()
 const isSubmitDisable = ref(false)
 const loginAs = ref('user')
 
 const submitForm = async (e) => {
   const loginPayload = Object.fromEntries(new FormData(e.target))
+  Swal.fire({
+    title: 'Mencoba masuk',
+    timer: 2000,
+    allowEscapeKey: false,
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading()
+    }
+  }).then(async () => {
+    try {
+      const response = (
+        await axios.post(`/auth/${loginAs.value}`, loginPayload, {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          withCredentials: true
+        })
+      )?.data?.data?.accessToken
 
-  try {
-    await axios.post(`/auth/${loginAs.value}`, loginPayload, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      withCredentials: true
-    })
-    isSubmitDisable.value = true
-    $Swal.fire({
-      icon: 'success',
-      title: 'Berhasil masuk',
-      showConfirmButton: false,
-      timer: 1000
-    })
-    return location.replace('/')
-  } catch (error) {
-    const err = error.response.data.message
-    alertPopup({ icon: 'error', title: 'Oops', text: err })
-  }
+      authStore.$patch({
+        accessToken: response
+      })
+
+      isSubmitDisable.value = true
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil masuk',
+        showConfirmButton: false,
+        timer: 1000
+      })
+      return location.replace('/')
+    } catch (error) {
+      const err = error.response.data.message
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops',
+        text: err
+      })
+    }
+  })
 }
 </script>
 
