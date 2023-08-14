@@ -73,6 +73,9 @@ a.router-link-active {
             <li>
               <NuxtLink to="/admin/dashboard/siswa" class="menu-link_sub-link group">Data Siswa</NuxtLink>
             </li>
+            <li>
+              <NuxtLink to="/admin/dashboard/sertifikat" class="menu-link_sub-link group">Sertifikat</NuxtLink>
+            </li>
           </ul>
         </li>
         <li>

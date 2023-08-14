@@ -32,6 +32,12 @@ export default defineNuxtConfig({
     },
     '/dashboard/**': {
       ssr: false
+    },
+    '/print/**': {
+      ssr: false
+    },
+    '/sertifikat/**': {
+      ssr: false
     }
   },
   runtimeConfig: {

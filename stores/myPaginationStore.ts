@@ -6,11 +6,14 @@ export const usePaginationStore = defineStore('pagination', () => {
   const pageNumberKelasUsers: Ref<number> = ref(1)
   const pageNumberPresensi: Ref<number> = ref(1)
   const pageNumberAdmins: Ref<number> = ref(1)
+  const pageNumberSertifikatUser: Ref<number> = ref(1)
+  const pageNumberSertifikatAdmin: Ref<number> = ref(1)
 
   const searchUser: Ref<string> = ref('')
   const searchAdmin: Ref<string> = ref('')
   const searchTransaksi: Ref<string> = ref('')
   const searchPresensi: Ref<string> = ref('')
+  const searchSertifikat: Ref<string> = ref('')
 
   const filterTransaksi: Ref<string> = ref('')
   return {
@@ -21,10 +24,13 @@ export const usePaginationStore = defineStore('pagination', () => {
     pageNumberKelasUsers,
     pageNumberPresensi,
     pageNumberAdmins,
+    pageNumberSertifikatUser,
+    pageNumberSertifikatAdmin,
     searchAdmin,
     searchUser,
     searchTransaksi,
     searchPresensi,
+    searchSertifikat,
     filterTransaksi
   }
 })

@@ -37,7 +37,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     } catch (error: any) {
       console.log(error.message)
       authStore.$patch({ accessToken: '' })
-      await navigateTo('/login')
+      return navigateTo('/login')
     }
   }
 })

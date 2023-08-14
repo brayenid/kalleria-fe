@@ -6,12 +6,13 @@ definePageMeta({
   layout: 'user-dashboard'
 })
 
-const { $axiosAuth: axios, $scrollTo: scrollTo } = useNuxtApp()
+const { $axiosAuth: axios, $scrollTo: scrollTo, $Swal: Swal } = useNuxtApp()
 const paginationStore = usePaginationStore()
 const kelasUserList = ref([])
 const isLoading = ref(true)
 const route = useRoute()
 const kelasUserEl = ref()
+const sertifikatList = ref([])
 
 // PAGINATION MANDATORY STATE
 const pageNumber = ref(paginationStore.pageNumberKelasUsers)
@@ -43,9 +44,11 @@ onMounted(async () => {
   if (response) {
     isLoading.value = false
   }
-
   rowsTotal.value = response.total
   kelasUserList.value = response.rows
+
+  const sertifikatResponse = (await axios.get('/sertifikat/users')).data.data
+  sertifikatList.value = sertifikatResponse
 })
 </script>
 
@@ -81,9 +84,21 @@ onMounted(async () => {
                 </NuxtLink>
               </div>
               <h2 class="mb-4 text-2xl font-semibold tracking-tight text-gray-800 dark:text-white">{{ kelasUser?.namaKelas }}</h2>
-              <div class="flex justify-end items-center gap-4">
-                <IconsCheck v-if="kelasUser?.presensi === kelasUser?.maksimalPertemuan" class="text-green-500" />
-                <p>{{ kelasUser?.presensi }} / {{ kelasUser?.maksimalPertemuan }}</p>
+              <div class="flex justify-between items-center">
+                <div>
+                  <NuxtLink
+                    :to="`/dashboard/kelasuser/${kelasUser?.id}`"
+                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  >
+                    Klaim Sertifikat
+                  </NuxtLink>
+                </div>
+                <div>
+                  <div class="flex justify-end items-center gap-4">
+                    <IconsCheck v-if="kelasUser?.presensi === kelasUser?.maksimalPertemuan" class="text-green-500" />
+                    <p>{{ kelasUser?.presensi }} / {{ kelasUser?.maksimalPertemuan }}</p>
+                  </div>
+                </div>
               </div>
             </article>
             <div v-else-if="!kelasUserList.length && !isLoading" class="w-full col-span-3">

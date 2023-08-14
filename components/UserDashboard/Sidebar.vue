@@ -50,6 +50,12 @@ a.router-link-active {
           </NuxtLink>
         </li>
         <li>
+          <NuxtLink to="/dashboard/sertifikat" class="menu-link group">
+            <IconsTrophy class="group-hover:text-gray-800" />
+            <span class="flex-1 ml-3 whitespace-nowrap">Sertifikat</span>
+          </NuxtLink>
+        </li>
+        <li>
           <NuxtLink to="/dashboard/kelas" class="menu-link bg-gradient-to-r from-orange-200 to-yellow-200 hover:from-orange-300 hover:to-yellow-300">
             <IconsBasket class="group-hover:text-gray-800" />
             <span class="flex-1 ml-3 whitespace-nowrap">Beli Kelas</span>
@@ -79,7 +85,6 @@ a.router-link-active {
             </li>
           </ul>
         </li>
-
         <li>
           <a href="https://wa.link/ag180g" target="_blank" class="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
             <IconsWhatsapp class="group-hover:text-gray-800" />

@@ -3,15 +3,13 @@ useSeoMeta({
   description: 'Lembaga Pendidikan, Pelatihan, dan Kursus siap kerja dan terlengkap di Kutai Barat.',
   ogTitle: 'LPK Kalleria',
   ogDescription: useRuntimeConfig().public.ogDesc,
-  ogImage: useRuntimeConfig().public.ogImage
+  ogImage: useRuntimeConfig().public.ogImage,
+  ogUrl: 'https://lpk.kalleriagroup.com',
+  ogSiteName: 'LPK Kalleria Kutai Barat'
 })
-
-const getInfoScroll = () => {
-  console.log(window.scrollY)
-}
 </script>
 <template>
-  <div @scroll="getInfoScroll">
+  <div>
     <HomeJumbotron />
     <HomeAbout />
     <HomeFeatures />

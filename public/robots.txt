@@ -3,3 +3,5 @@ Disallow: /dashboard/
 Disallow: /sudo/dashboard/
 Disallow: /admin/dashboard/
 Disallow: /login
+Disallow: /sertifikat
+Disallow: /print
