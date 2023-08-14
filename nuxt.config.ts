@@ -11,13 +11,13 @@ export default defineNuxtConfig({
     }
   },
   pages: true,
-  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-swiper', '@nuxt/image', 'nuxt-simple-sitemap'],
-  sitemap: {
-    exclude: ['/admin/**', '/dashboard/**', '/sudo/**', '/print/**']
-  },
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'nuxt-swiper', '@nuxt/image', 'nuxt-gtag'],
   css: ['~/assets/css/main.css', '@vuepic/vue-datepicker/dist/main.css'],
   pinia: {
     autoImports: ['defineStore']
+  },
+  gtag: {
+    id: 'G-Z7WS4FK725'
   },
   build: {
     transpile: ['@vuepic/vue-datepicker']

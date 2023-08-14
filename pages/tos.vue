@@ -6,9 +6,10 @@ useSeoMeta({
 
 <template>
   <StaticPage>
-    <h1 class="text-2xl font-semibold mb-4">Syarat Penggunaan LPK Kalleria</h1>
-    <p class="text-sm text-gray-600 mb-4">Terakhir diperbarui: 12/08/2023</p>
-
+    <div class="my-8">
+      <h1 class="text-2xl font-bold text-center">Syarat Penggunaan LPK Kalleria</h1>
+      <p class="text-sm text-center w-full text-gray-400">Terakhir diperbarui: 12/08/2023</p>
+    </div>
     <p>
       Selamat datang di LPK Kalleria! Syarat Penggunaan ini mengatur penggunaan situs web kami. Dengan mengakses dan menggunakan situs kami, Anda menyetujui untuk terikat oleh syarat-syarat berikut. Harap luangkan waktu untuk membaca syarat
       penggunaan ini dengan teliti.

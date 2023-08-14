@@ -13,7 +13,7 @@ useSeoMeta({
 <template>
   <StaticPage>
     <div class="mb-6">
-      <h1 class="text-xl font-bold text-center">Tutorial Beli Kelas di LPK Kalleria</h1>
+      <h1 class="text-2xl font-bold text-center">Tutorial Beli Kelas di LPK Kalleria</h1>
       <p class="text-sm text-center w-full text-gray-400">dubble.so</p>
     </div>
     <div class="my-10">

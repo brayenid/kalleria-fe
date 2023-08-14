@@ -6,9 +6,10 @@ useSeoMeta({
 
 <template>
   <StaticPage>
-    <h1 class="text-2xl font-semibold mb-4">Kebijakan Privasi LPK Kalleria</h1>
-    <p class="text-sm text-gray-600 mb-4">Terakhir diperbarui: 12/08/2023</p>
-
+    <div class="my-8">
+      <h1 class="text-2xl font-bold text-center">Kebijakan Privasi LPK Kalleria</h1>
+      <p class="text-sm text-center w-full text-gray-400">Terakhir diperbarui: 12/08/2023</p>
+    </div>
     <p>
       Selamat datang di LPK Kalleria! Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda. Kami sangat memprioritaskan perlindungan data dan kerahasiaan informasi Anda. Harap
       luangkan waktu untuk membaca kebijakan privasi ini dengan teliti.

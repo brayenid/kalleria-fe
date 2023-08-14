@@ -1,7 +1,7 @@
 <script setup lang="ts">
 useHead({
   titleTemplate: (titleChunk) => {
-    return titleChunk ? `${titleChunk} - Kalleria` : 'Kalleria'
+    return titleChunk ? `${titleChunk} - Kalleria` : 'Kalleria - LPK Siap Kerja dan Terlengkap di Kutai Barat'
   }
 })
 </script>

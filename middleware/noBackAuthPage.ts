@@ -5,8 +5,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (authStore.accessToken) {
     if (to.fullPath === from.fullPath) {
-      await navigateTo('/')
+      return navigateTo('/')
     }
-    await navigateTo(from.fullPath)
+    return navigateTo(from.fullPath)
   }
 })
