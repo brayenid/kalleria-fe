@@ -76,7 +76,7 @@ onMounted(async () => {
               <td class="px-4 py-4"><a :href="`/sertifikat/${sertifikat?.id}`" target="_blank">Lihat</a></td>
             </tr>
             <tr v-else>
-              <td class="text-center py-4" colspan="3">Belum ada sertifikat !</td>
+              <td class="text-center py-4" colspan="4">Belum ada sertifikat !</td>
             </tr>
           </tbody>
         </table>
