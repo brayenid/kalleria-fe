@@ -53,7 +53,6 @@ onMounted(async () => {
 
     const sertifikatKelasUser = (await axios.get(`/sertifikat/kelasuser/${route.params.id}`)).data.data
     sertifikatInfo.value = sertifikatKelasUser
-    console.log(sertifikatInfo.value)
   } catch (error) {
     throw createError({ statusCode: 403, message: 'Forbidden', fatal: true })
   }

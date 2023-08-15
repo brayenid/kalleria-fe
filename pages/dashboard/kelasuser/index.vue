@@ -6,7 +6,7 @@ definePageMeta({
   layout: 'user-dashboard'
 })
 
-const { $axiosAuth: axios, $scrollTo: scrollTo, $Swal: Swal } = useNuxtApp()
+const { $axiosAuth: axios, $scrollTo: scrollTo } = useNuxtApp()
 const paginationStore = usePaginationStore()
 const kelasUserList = ref([])
 const isLoading = ref(true)
@@ -87,6 +87,7 @@ onMounted(async () => {
               <div class="flex justify-between items-center">
                 <div>
                   <NuxtLink
+                    v-if="kelasUser?.presensi === kelasUser?.maksimalPertemuan"
                     :to="`/dashboard/kelasuser/${kelasUser?.id}`"
                     class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   >

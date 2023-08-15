@@ -5,49 +5,44 @@ const { $axios: axios, $Swal: Swal } = useNuxtApp()
 const authStore = useAuthStore()
 const isSubmitDisable = ref(false)
 const loginAs = ref('user')
+const isFetching = ref(false)
 
 const submitForm = async (e) => {
   const loginPayload = Object.fromEntries(new FormData(e.target))
-  Swal.fire({
-    title: 'Mencoba masuk',
-    timer: 2000,
-    allowEscapeKey: false,
-    allowOutsideClick: false,
-    didOpen: () => {
-      Swal.showLoading()
-    }
-  }).then(async () => {
-    try {
-      const response = (
-        await axios.post(`/auth/${loginAs.value}`, loginPayload, {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          withCredentials: true
-        })
-      )?.data?.data?.accessToken
+  isFetching.value = true
+  try {
+    const response = (
+      await axios.post(`/auth/${loginAs.value}`, loginPayload, {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      })
+    )?.data?.data?.accessToken
 
-      authStore.$patch({
-        accessToken: response
-      })
+    authStore.$patch({
+      accessToken: response
+    })
 
-      isSubmitDisable.value = true
-      Swal.fire({
-        icon: 'success',
-        title: 'Berhasil masuk',
-        showConfirmButton: false,
-        timer: 1000
-      })
-      return location.replace('/')
-    } catch (error) {
-      const err = error.response.data.message
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops',
-        text: err
-      })
-    }
-  })
+    isSubmitDisable.value = true
+    Swal.fire({
+      icon: 'success',
+      title: 'Berhasil masuk',
+      showConfirmButton: false,
+      timer: 1000
+    })
+    isFetching.value = false
+    return location.replace('/')
+  } catch (error) {
+    isFetching.value = false
+    const err = error.response.data.message
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops',
+      text: err
+    })
+  }
 }
 </script>
 
@@ -59,6 +54,7 @@ form.login label {
 
 <template>
   <div class="w-full max-w-md p-8 bg-white rounded-md shadow-md">
+    <Loading v-if="isFetching" />
     <h1 class="text-center text-xl font-bold mb-10 text-gray-800">Masuk Akun</h1>
     <form @submit.prevent="submitForm">
       <div class="mb-6">

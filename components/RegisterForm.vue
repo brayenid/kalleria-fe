@@ -11,6 +11,7 @@ const confirmPassword = ref('')
 const confirmPasswordEl = ref()
 const registerFormEl = ref()
 const tanggalLahir = ref('')
+const isFetching = ref(false)
 
 const errorMessages = reactive({
   username: null,
@@ -59,15 +60,18 @@ const submitForm = async (e) => {
     return
   }
   try {
+    isFetching.value = true
     await axios.post('/users', registerPayload, {
       headers: {
         'Content-Type': 'application/json'
       }
     })
+    isFetching.value = false
 
     alertPopup({ icon: 'success', title: 'Sukses', text: 'Selamat, akun telah terdaftar, silahkan masuk.' })
     registerFormEl.value.reset()
   } catch (error) {
+    isFetching.value = false
     try {
       const err = error.response.data.message
       err.map((e) => {
@@ -109,6 +113,7 @@ form.register button {
 
 <template>
   <div>
+    <Loading v-if="isFetching" />
     <h1 class="text-center text-lg font-semibold mb-10">Daftar Akun</h1>
     <form @submit.prevent="submitForm" class="register" ref="registerFormEl">
       <div class="grid gap-6 mb-6 md:grid-cols-2">

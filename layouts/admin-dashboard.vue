@@ -19,7 +19,7 @@ onMounted(async () => {
   <div class="antialiased bg-gray-50 dark:bg-gray-900">
     <AdminDashboardNav />
     <AdminDashboardSidebar />
-    <main class="p-8 md:ml-64 h-auto pt-24">
+    <main class="p-4 md:ml-64 h-auto pt-24">
       <slot />
     </main>
   </div>

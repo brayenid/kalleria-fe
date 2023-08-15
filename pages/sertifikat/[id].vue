@@ -8,7 +8,7 @@ useSeoMeta({
   title: 'Cetak Sertifikat'
 })
 
-const { $axiosAuth: axios } = useNuxtApp()
+const { $axios: axios } = useNuxtApp()
 const route = useRoute()
 const sertifikatDetail = ref('')
 

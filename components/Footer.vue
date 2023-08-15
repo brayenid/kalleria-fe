@@ -27,8 +27,9 @@
           </div>
         </div>
         <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <div class="text-center md:text-left">
-          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 LPK Kalleria. All Rights Reserved. </span>
+        <div class="text-center flex gap-3 justify-between items-center flex-wrap text-sm text-gray-500 dark:text-gray-400">
+          <p class="w-full block text-center md:w-auto md:inline">© 2023 LPK Kalleria. All Rights Reserved.</p>
+          <p class="w-full block text-center md:w-auto md:inline">Developed By : <a class="hover:underline" href="https://brayenluhat.xyz" target="_blank" rel="noopener noreferrer">Brayen Luhat</a></p>
         </div>
       </div>
     </footer>
