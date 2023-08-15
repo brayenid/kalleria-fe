@@ -1,6 +1,7 @@
 <script setup>
 import QRious from 'qrious'
-import html2pdf from 'html2pdf.js'
+import { toPng } from 'html-to-image'
+import download from 'downloadjs'
 
 definePageMeta({
   layout: false
@@ -16,16 +17,9 @@ const certEl = ref()
 
 const qr = ref()
 
-const pdf = async () => {
-  const options = {
-    margin: 0,
-    filename: `sertifikat-${route.params.id}.pdf`,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2 },
-    jsPDF: { unit: 'mm', format: [297, 173.9], orientation: 'l' }
-  }
-
-  html2pdf(certEl.value, options)
+const toImg = async () => {
+  const dataUrl = await toPng(certEl.value)
+  download(dataUrl, `sertifikat-${route.params.id}.png`)
 }
 
 const print = () => {
@@ -33,13 +27,13 @@ const print = () => {
 }
 
 onMounted(async () => {
+  new QRious({
+    element: qr.value,
+    value: `https://lpk.kalleriagroup.com/sertifikat/${sertifikatDetail.value.id}`
+  })
   try {
     const sertifikatKelasUser = (await axios.get(`/sertifikat/${route.params.id}`)).data.data
     sertifikatDetail.value = sertifikatKelasUser
-    new QRious({
-      element: qr.value,
-      value: `https://lpk.kalleriagroup.com/sertifikat/${sertifikatDetail.value.id}`
-    })
     if (!sertifikatDetail.value) throw new Error('Not Found')
   } catch (error) {
     throw createError({ status: 404, message: 'Not Found', fatal: true })
@@ -56,14 +50,14 @@ onMounted(async () => {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8ed3f",endColorstr="#f8ed3f",GradientType=1);
 }
 .print-area-container {
-  @apply min-w-[1024px] p-14;
+  @apply min-w-[1024px] h-[720px] p-14;
 }
 @media print {
   .print-control {
     @apply hidden;
   }
   .print-area-container {
-    @apply min-w-[1024px] p-0;
+    @apply min-w-[1024px] !h-screen p-0;
   }
 }
 </style>
@@ -71,11 +65,11 @@ onMounted(async () => {
 <template>
   <div>
     <div class="print-control fixed w-full p-2 bg-gray-100 z-50 text-center top-0 flex justify-center items-center gap-2">
-      <button @click="pdf" class="p-1 px-2 bg-red-50 border border-red-600 rounded text-red-600 hover:bg-red-200">PDF</button>
+      <button @click="toImg" class="p-1 px-2 bg-red-50 border border-red-600 rounded text-red-600 hover:bg-red-200">PNG</button>
       <button @click="print" class="p-1 px-2 bg-green-50 border border-green-600 rounded text-green-600 hover:bg-green-200">Cetak</button>
     </div>
     <div class="print-area-container">
-      <div ref="certEl" class="bg-blue-900 w-full h-screen flex justify-center items-center p-6">
+      <div ref="certEl" class="bg-blue-900 w-full h-full flex justify-center items-center p-6">
         <div class="bg-white p-6 w-full h-full">
           <div class="bg-yellow-300 h-full p-1">
             <div class="bg-white h-full p-2 flex flex-col justify-between relative">
