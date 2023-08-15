@@ -2,8 +2,7 @@
 import QRious from 'qrious'
 
 definePageMeta({
-  layout: false,
-  middleware: 'auth-loose'
+  layout: false
 })
 useSeoMeta({
   title: 'Cetak Sertifikat'
