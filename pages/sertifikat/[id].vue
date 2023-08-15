@@ -27,13 +27,13 @@ const print = () => {
 }
 
 onMounted(async () => {
-  new QRious({
-    element: qr.value,
-    value: `https://lpk.kalleriagroup.com/sertifikat/${sertifikatDetail.value.id}`
-  })
   try {
     const sertifikatKelasUser = (await axios.get(`/sertifikat/${route.params.id}`)).data.data
     sertifikatDetail.value = sertifikatKelasUser
+    new QRious({
+      element: qr.value,
+      value: `https://lpk.kalleriagroup.com/sertifikat/${sertifikatDetail.value.id}`
+    })
     if (!sertifikatDetail.value) throw new Error('Not Found')
   } catch (error) {
     throw createError({ status: 404, message: 'Not Found', fatal: true })
@@ -42,15 +42,8 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.gradient-header {
-  background: rgb(248, 237, 63);
-  background: -moz-linear-gradient(85deg, rgba(248, 237, 63, 0.3) 0%, rgba(255, 255, 255, 1) 50%, rgba(248, 237, 63, 0.3) 100%);
-  background: -webkit-linear-gradient(85deg, rgba(248, 237, 63, 0.3) 0%, rgba(255, 255, 255, 1) 50%, rgba(248, 237, 63, 0.3) 100%);
-  background: linear-gradient(85deg, rgba(248, 237, 63, 0.3) 0%, rgba(255, 255, 255, 1) 50%, rgba(248, 237, 63, 0.3) 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f8ed3f",endColorstr="#f8ed3f",GradientType=1);
-}
 .print-area-container {
-  @apply min-w-[1024px] h-[720px] p-14;
+  @apply min-w-[1123px] h-[794px] p-14;
 }
 @media print {
   .print-control {
@@ -72,8 +65,8 @@ onMounted(async () => {
       <div ref="certEl" class="bg-blue-900 w-full h-full flex justify-center items-center p-6">
         <div class="bg-white p-6 w-full h-full">
           <div class="bg-yellow-300 h-full p-1">
-            <div class="bg-white h-full p-2 flex flex-col justify-between relative">
-              <header class="gradient-header flex justify-between items-center p-4">
+            <div class="bg-[url('/images/accent-cert.png')] bg-cover !bg-opacity-60 h-full p-2 flex flex-col justify-between relative">
+              <header class="flex justify-between items-center p-4">
                 <div class="flex items-center gap-4">
                   <img class="w-28" src="/images/kalleria-logo.png" alt="logo" />
                 </div>
@@ -86,7 +79,7 @@ onMounted(async () => {
                   Kelulusan
                 </h1>
               </header>
-              <div class="text-center h-64 flex flex-col justify-center gap-6">
+              <div class="text-center h-64 flex flex-col justify-start gap-8">
                 <p class="text-lg font-light">Diberikan Kepada :</p>
                 <p class="text-5xl font-bold text-blue-800">{{ sertifikatDetail?.nama }}</p>
                 <p class="text-md max-w-lg mx-auto font-light">
@@ -96,6 +89,7 @@ onMounted(async () => {
               <footer class="text-center font-light relative">
                 <div>
                   <p>Kutai Barat, {{ useLocalDateDetail(sertifikatDetail?.tanggal) }}</p>
+                  <br />
                   <br />
                   <br />
                   <p class="font-semibold">LPK Kalleria</p>
