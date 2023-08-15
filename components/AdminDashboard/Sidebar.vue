@@ -74,6 +74,9 @@ a.router-link-active {
               <NuxtLink to="/admin/dashboard/siswa" class="menu-link_sub-link group">Data Siswa</NuxtLink>
             </li>
             <li>
+              <NuxtLink to="/admin/dashboard/kelasuser" class="menu-link_sub-link group">Kelas Siswa</NuxtLink>
+            </li>
+            <li>
               <NuxtLink to="/admin/dashboard/sertifikat" class="menu-link_sub-link group">Sertifikat</NuxtLink>
             </li>
           </ul>
@@ -110,7 +113,7 @@ a.router-link-active {
             data-collapse-toggle="admins-dropdown"
           >
             <IconsUserShield class="group-hover:text-gray-800" />
-            <span class="flex-1 ml-3 text-left whitespace-nowrap">Manajemen Admin</span>
+            <span class="flex-1 ml-3 text-left whitespace-nowrap">Admin</span>
             <svg aria-hidden="true" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
             </svg>

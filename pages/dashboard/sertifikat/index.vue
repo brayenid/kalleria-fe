@@ -42,8 +42,8 @@ onMounted(async () => {
     <Breadcrumbs :path="route.path" last-point="Sertifikat" />
     <div class="relative overflow-x-auto shadow rounded-md">
       <div class="h-[400px] overflow-y-auto">
-        <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-4 py-3">Kelas</th>
               <th scope="col" class="px-4 py-3">Tanggal</th>
@@ -54,7 +54,7 @@ onMounted(async () => {
             <tr v-if="sertifikatList.length" v-for="sertifikat in sertifikatList" :key="sertifikat.id" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-4 py-4">{{ sertifikat?.namaKelas }}</td>
               <td class="px-4 py-4">{{ useShortenDate(sertifikat?.tanggal) }}</td>
-              <td class="px-4 py-4"><a :href="`/sertifikat/${sertifikat?.id}`" target="_blank">Lihat</a></td>
+              <td class="px-4 py-4"><a class="text-blue-600 hover:underline" :href="`/sertifikat/${sertifikat?.id}`" target="_blank">Lihat</a></td>
             </tr>
             <tr v-else>
               <td class="text-center py-4" colspan="3">Belum ada sertifikat !</td>

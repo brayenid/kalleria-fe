@@ -68,7 +68,7 @@ onMounted(async () => {
         <table class="w-full text-sm text-left border-t border-gray-100 text-gray-500 dark:text-gray-400">
           <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" class="px-4 py-3">ID User</th>
+              <th scope="col" class="px-4 py-3">ID Admin</th>
               <th scope="col" class="px-4 py-3">Username</th>
               <th scope="col" class="px-4 py-3">Nama</th>
               <th scope="col" class="px-4 py-3">Dibuat</th>

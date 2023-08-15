@@ -92,7 +92,7 @@ onUnmounted(() => {
       <li>
         <button
           @click="props.changePageFunc(1)"
-          class="flex items-center justify-center px-1 sm:px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           :disabled="isFirstNumber"
         >
           Awal
@@ -101,7 +101,7 @@ onUnmounted(() => {
       <li v-for="(item, index) in paginationNumberMargin" :key="index">
         <button
           @click="props.changePageFunc(item)"
-          class="flex items-center justify-center px-2 sm:px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           :class="{ '!bg-gray-100': isPaginationEqualsPage(item) }"
         >
           {{ item }}
@@ -109,7 +109,7 @@ onUnmounted(() => {
       </li>
       <li>
         <button
-          class="flex items-center justify-center px-1 sm:px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-default"
+          class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white cursor-default"
           disabled
         >
           ...
@@ -118,7 +118,7 @@ onUnmounted(() => {
       <li>
         <button
           @click="props.changePageFunc(lastPaginationNumber)"
-          class="flex items-center justify-center px-1 sm:px-3 h-8 leading-tight rounded-r-lg text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+          class="flex items-center justify-center px-3 h-8 leading-tight rounded-r-lg text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           :class="{ '!bg-gray-100': isPaginationEqualsPage(lastPaginationNumber) }"
           :disabled="isLastNumber || !rowsTotal"
         >

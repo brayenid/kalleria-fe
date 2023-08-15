@@ -49,8 +49,6 @@ onMounted(async () => {
 })
 </script>
 
-<style lang="scss" scoped></style>
-
 <template>
   <div>
     <Breadcrumbs :path="route.path" last-point="Daftar Sertifikat" :start-index="2" :slice-link="2" />
@@ -59,8 +57,8 @@ onMounted(async () => {
         <SearchInput class="flex-[2] sm:flex-[4]" :search-func="debounceSearch" placeholder-search="Cari sertifikat ..." />
       </div>
       <div class="h-[400px] overflow-y-auto">
-        <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-gray-700 uppercase bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" class="px-4 py-3">Nama</th>
               <th scope="col" class="px-4 py-3">Kelas</th>
@@ -73,7 +71,7 @@ onMounted(async () => {
               <td class="px-4 py-4">{{ sertifikat?.nama }}</td>
               <td class="px-4 py-4">{{ sertifikat?.namaKelas }}</td>
               <td class="px-4 py-4">{{ useShortenDate(sertifikat?.tanggal) }}</td>
-              <td class="px-4 py-4"><a :href="`/sertifikat/${sertifikat?.id}`" target="_blank">Lihat</a></td>
+              <td class="px-4 py-4"><a class="text-blue-600 hover:underline" :href="`/sertifikat/${sertifikat?.id}`" target="_blank">Lihat</a></td>
             </tr>
             <tr v-else>
               <td class="text-center py-4" colspan="4">Belum ada sertifikat !</td>
