@@ -28,6 +28,16 @@ const isPasswordMatch = () => {
   return true
 }
 
+const isUsernameValid = () => {
+  errorMessages.username = ''
+  const regex = /^[a-zA-Z0-9_]*$/
+  if (!regex.test(username.value)) {
+    errorMessages.username = 'Tanpa karakter spesial dan spasi'
+    return false
+  }
+  return true
+}
+
 const isPasswordValid = () => {
   if (password.value.length < 8) {
     errorMessages.password = 'Minimal 8 karakter, terdapat 1 angka, dan 1 huruf kapital.'
@@ -57,6 +67,11 @@ const submitForm = async (e) => {
 
   if (!isPasswordMatch() || !isPasswordValid()) {
     alertPopup({ title: 'Oops..', text: 'Ada kesalahan pada password, silahkan perbaiki.' })
+    return
+  }
+
+  if (!isUsernameValid()) {
+    alertPopup({ title: 'Oops..', text: 'Ada kesalahan pada username, silahkan perbaiki.' })
     return
   }
   try {
@@ -121,7 +136,7 @@ form.register button {
           <label class="labelbio" for="username"
             >Username <span class="font-normal text-red-600" v-show="errorMessages.username">({{ errorMessages.username }})</span></label
           >
-          <input name="username" class="bio" type="text" id="username" placeholder="Masukan username anda" v-model="username" required @input="errorMessages.username = ''" />
+          <input name="username" class="bio" type="text" id="username" placeholder="Masukan username anda" v-model="username" @input="isUsernameValid" required />
         </div>
         <div>
           <label class="labelbio" for="nama">Nama</label>
