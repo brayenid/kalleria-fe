@@ -11,12 +11,15 @@ const userInfo = reactive({
   role: null
 })
 
+const isFetching = ref(false)
+
 const profileImageSrc = computed(() => {
   return userInfo.urlImage ? `${useRuntimeConfig().public.beEndpoint}/${userInfo.urlImage}` : '/svg/blank-profile.svg'
 })
 
 const signOut = async () => {
   try {
+    isFetching.value = true
     await axios.delete(`/auth/${userInfo.role}`, {
       withCredentials: true
     })
@@ -31,6 +34,7 @@ const signOut = async () => {
     authStore.$patch({ accessToken: '' })
     window.location.replace('/login')
   } catch (error) {
+    isFetching.value = false
     const err = error.response.data.message
     Swal.fire({
       icon: 'error',
@@ -71,6 +75,7 @@ button.as-link {
 
 <template>
   <div>
+    <Loading v-if="isFetching" />
     <button
       type="button"
       class="flex mr-3 text-sm border-[2px] border-blue-300 bg-transparent rounded-full focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600 p-[2px]"

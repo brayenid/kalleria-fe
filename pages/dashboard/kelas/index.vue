@@ -13,8 +13,19 @@ const isLoading = ref(true)
 const route = useRoute()
 const kelasListEl = ref()
 
+// MELAKUKAN DELAY PADA PENCARIAN SUPAYA MENGHEMAT PEMANGGILAN KE SERVER DENGAN MENGUBAH STATE PINIA UNTUK
+// MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
+let timer
+const debounceSearch = async (value, delay = 1000) => {
+  paginationStore.$patch({ pageNumberKelas: 1 })
+  clearTimeout(timer)
+  timer = setTimeout(async () => {
+    paginationStore.$patch({ searchKelas: value })
+  }, delay)
+}
+
 // PAGINATION MANDATORY STATE
-const pageNumber = ref(paginationStore.pageNumberKelasAdmin)
+const pageNumber = ref(paginationStore.pageNumberKelas)
 const pageSize = 6
 const rowsTotal = ref(0)
 
@@ -23,18 +34,18 @@ const changePage = (number) => {
   const scroll = scrollTo(kelasListEl.value, 500, {
     offset: -70
   })
-  paginationStore.$patch({ pageNumberKelasAdmin: number })
+  paginationStore.$patch({ pageNumberKelas: number })
   setTimeout(() => {
     scroll()
   }, 1000)
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberKelasAdmin: 1 })
+  paginationStore.$patch({ pageNumberKelas: 1 })
 }
 
 paginationStore.$subscribe(async (mutation, state) => {
-  const response = (await axios.get(`/kelas?pageSize=${pageSize}&pageNumber=${state.pageNumberKelasAdmin}`)).data.data
+  const response = (await axios.get(`/kelas?pageSize=${pageSize}&pageNumber=${state.pageNumberKelas}&search=${state.searchKelas}`)).data.data
   kelasList.value = response.rows
 })
 
@@ -63,6 +74,9 @@ onMounted(async () => {
         <div class="mx-auto max-w-screen-sm text-center lg:mb-16 mb-8">
           <h2 class="mb-4 text-3xl lg:text-3xl tracking-tight font-extrabold text-gray-900 dark:text-white">Daftar Kelas</h2>
           <p class="font-light text-gray-500 sm:text-md dark:text-gray-400">Berikut adalah daftar kelas yang dapat diikuti, pilih satu (klik kelas) lalu selesaikan pembayaran, buka halaman transaksi, kirim bukti bayar, belajar!</p>
+        </div>
+        <div class="bg-white">
+          <SearchInput class="mb-8 border-b border-gray-200" :search-func="debounceSearch" placeholder-search="Cari kelas..." />
         </div>
         <div class="min-h-[300px] mb-6">
           <div class="grid gap-8 lg:grid-cols-2 xl:grid-cols-3">
@@ -97,7 +111,7 @@ onMounted(async () => {
           <div v-if="isLoading">
             <UserDashboardKelasSkeleton :number-of-skeleton="6" />
           </div>
-          <Paginations :page-number="paginationStore.pageNumberKelasAdmin" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+          <Paginations :page-number="paginationStore.pageNumberKelas" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
         </div>
       </div>
     </section>

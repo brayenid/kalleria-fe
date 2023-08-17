@@ -31,7 +31,6 @@ const submitForm = async (e) => {
       showConfirmButton: false,
       timer: 1000
     })
-    isFetching.value = false
     return location.replace('/')
   } catch (error) {
     isFetching.value = false

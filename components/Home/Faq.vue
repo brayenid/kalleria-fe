@@ -47,7 +47,7 @@ a {
           <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
             <p class="faq-content">
               LPK Kalleria membuat sistem yang memudahkan anda untuk mendaftar, membeli, hingga melihat progres kelas. Proses daftar dapat anda lakukan secara mandiri melalui halaman <a href="/daftar" target="_blank">daftar</a>, atau anda
-              dapat mengunjungi kantor LPK Kalleria untuk bantuan pendaftaran. Jika anda kesulitan, anda bisa lihat <a href="/daftar" target="_blank">tutorial pendaftaran berikut</a>.
+              dapat mengunjungi kantor LPK Kalleria untuk bantuan pendaftaran. Jika anda kesulitan, anda bisa lihat <a href="/tutorial/daftar" target="_blank">tutorial pendaftaran berikut</a>.
             </p>
           </div>
         </div>
