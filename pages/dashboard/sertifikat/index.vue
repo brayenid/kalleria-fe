@@ -1,32 +1,32 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useSertifikatStore } from '~/stores/mySertifikatUserStore'
 
 definePageMeta({
   middleware: 'auth-user',
   layout: 'user-dashboard'
 })
 
-const paginationStore = usePaginationStore()
+const sertifikatStore = useSertifikatStore()
 const { $axiosAuth: axios } = useNuxtApp()
 const sertifikatList = ref([])
 const route = useRoute()
 
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberSertifikatUser)
+const pageNumber = ref(sertifikatStore.pageNumberSertifikat)
 const pageSize = 10
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberSertifikatUser: number })
+  sertifikatStore.$patch({ pageNumberSertifikat: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberSertifikatUser: 1 })
+  sertifikatStore.$patch({ pageNumberSertifikat: 1 })
 }
 
-paginationStore.$subscribe(async (mutation, state) => {
-  const response = (await axios.get(`/sertifikat/users?pageSize=${pageSize}&pageNumber=${state.pageNumberSertifikatUser}`)).data.data
+sertifikatStore.$subscribe(async (mutation, state) => {
+  const response = (await axios.get(`/sertifikat/users?pageSize=${pageSize}&pageNumber=${state.pageNumberSertifikat}`)).data.data
   sertifikatList.value = response.rows
 })
 
@@ -62,7 +62,8 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberSertifikatUser" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="sertifikatStore.pageNumberSertifikat" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>
+stores/mySertifikatUserStore

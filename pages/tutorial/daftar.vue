@@ -6,7 +6,10 @@ useSeoMeta({
 
 <style lang="postcss" scoped>
 .step {
-  @apply pb-10 border-b border-gray-300;
+  @apply pb-10 mb-10 border-b border-gray-300;
+}
+.step img {
+  @apply mt-8 mx-auto border border-gray-200;
 }
 </style>
 
@@ -16,8 +19,12 @@ useSeoMeta({
       <h1 class="text-2xl font-bold text-center">Tutorial Mendaftar LPK Kalleria</h1>
       <p class="text-sm text-center w-full text-gray-400">dubble.so</p>
     </div>
+    <article>
+      Pada halaman ini ada akan melihat tutorial/tata cara pendaftaran di LPK Kalleria secara online/daring. Langkah-langkah ditunjukan melalui gambar dan video, sehingga diharapkan anda dapat lebih mudah memahami. Silahkan disimak dari
+      langkah-langkah berikut, jika ada kesulitan jangan sungkan untuk menghubungi kami di kontak pada halaman utama.
+    </article>
     <div class="my-10">
-      <video controls class="w-full mb-4">
+      <video controls class="w-full mb-4 !p-4 !bg-blue-300 !rounded">
         <source src="https://dubble.so/media/video/120334fb-c9f1-4e18-a63e-1b601da6e5e2" type="video/mp4" />
       </video>
     </div>

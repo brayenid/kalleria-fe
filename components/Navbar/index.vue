@@ -1,8 +1,14 @@
 <script setup>
-import { initDropdowns, initCollapses } from 'flowbite'
+import { initDropdowns, initCollapses, Collapse } from 'flowbite'
 import { useAuthStore } from '~/stores/myAuthStore'
 
 const authStore = useAuthStore()
+const menuEl = ref()
+
+const closeMenu = () => {
+  const menu = new Collapse(menuEl.value)
+  menu.collapse()
+}
 
 onMounted(() => {
   initCollapses()
@@ -34,7 +40,7 @@ onMounted(() => {
             <IconsHamburger />
           </button>
         </div>
-        <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" id="navbar-user">
+        <div class="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1" ref="menuEl" @click="closeMenu" id="navbar-user">
           <ul class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 lg:bg-transparent">
             <li>
               <a href="/#about" v-scroll-to="{ element: '#about', offset: -65 }" class="menu_link">Tentang</a>

@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useKelasListStore } from '~/stores/myKelasListStore'
 
 definePageMeta({
   middleware: 'auth-admin',
@@ -7,7 +7,7 @@ definePageMeta({
 })
 
 const { $axiosAuth: axios, $scrollTo: scrollTo } = useNuxtApp()
-const paginationStore = usePaginationStore()
+const kelasListStore = useKelasListStore()
 const kelasList = ref([])
 const isLoading = ref(true)
 const route = useRoute()
@@ -17,15 +17,15 @@ const kelasListEl = ref()
 // MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
 let timer
 const debounceSearch = async (value, delay = 1000) => {
-  paginationStore.$patch({ pageNumberKelas: 1 })
   clearTimeout(timer)
   timer = setTimeout(async () => {
-    paginationStore.$patch({ searchKelas: value })
+    kelasListStore.pageNumberKelas !== 1 && kelasListStore.$patch({ pageNumberKelas: 1 })
+    kelasListStore.$patch({ searchKelas: value })
   }, delay)
 }
 
 // PAGINATION MANDATORY STATE
-const pageNumber = ref(paginationStore.pageNumberKelas)
+const pageNumber = ref(kelasListStore.pageNumberKelas)
 const pageSize = 6
 const rowsTotal = ref(0)
 
@@ -34,19 +34,20 @@ const changePage = (number) => {
   const scroll = scrollTo(kelasListEl.value, 500, {
     offset: -70
   })
-  paginationStore.$patch({ pageNumberKelas: number })
+  kelasListStore.$patch({ pageNumberKelas: number })
   setTimeout(() => {
     scroll()
   }, 1000)
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberKelas: 1 })
+  kelasListStore.$patch({ pageNumberKelas: 1 })
 }
 
-paginationStore.$subscribe(async (mutation, state) => {
+kelasListStore.$subscribe(async (mutation, state) => {
   const response = (await axios.get(`/kelas?pageSize=${pageSize}&pageNumber=${state.pageNumberKelas}&search=${state.searchKelas}`)).data.data
   kelasList.value = response.rows
+  rowsTotal.value = response.total
 })
 
 onMounted(async () => {
@@ -110,7 +111,7 @@ onMounted(async () => {
           <div v-if="isLoading">
             <UserDashboardKelasSkeleton :number-of-skeleton="6" />
           </div>
-          <Paginations :page-number="paginationStore.pageNumberKelas" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+          <Paginations :page-number="kelasListStore.pageNumberKelas" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
         </div>
       </div>
     </section>

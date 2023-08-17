@@ -4,6 +4,21 @@ defineNuxtLink({
 })
 
 const role = useCookie('role')
+
+const sidebarEl = ref()
+
+onMounted(() => {
+  const menuLinkElements = document.querySelectorAll('.menu-link')
+  const menuSubLinkElements = document.querySelectorAll('.menu-link_sub-link')
+
+  menuLinkElements.forEach((element) => {
+    element.setAttribute('data-drawer-hide', 'drawer-navigation')
+  })
+
+  menuSubLinkElements.forEach((element) => {
+    element.setAttribute('data-drawer-hide', 'drawer-navigation')
+  })
+})
 </script>
 
 <style lang="postcss" scoped>
@@ -19,7 +34,12 @@ a.router-link-active {
 </style>
 
 <template>
-  <aside class="fixed top-0 left-0 z-[39] w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidenav" id="drawer-navigation">
+  <aside
+    class="fixed top-0 left-0 z-[39] w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+    aria-label="Sidenav"
+    ref="sidebarEl"
+    id="drawer-navigation"
+  >
     <div class="overflow-y-auto py-5 px-3 pb-20 h-full bg-white dark:bg-gray-800">
       <ul class="space-y-2">
         <li>

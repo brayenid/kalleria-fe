@@ -95,7 +95,8 @@ button.as-link {
         <span class="block text-sm text-gray-900 dark:text-white">{{ userInfo?.nama }}</span>
         <div>
           <span v-if="userInfo?.role === 'user'" class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ userInfo?.email }}</span>
-          <span v-else-if="userInfo?.role === 'admin'" class="block text-sm text-gray-500 truncate dark:text-gray-400">Admin</span>
+          <span v-else-if="userInfo?.role === 'admin'" class="block text-sm text-gray-500 truncate dark:text-gray-400">Admin</span
+          ><span v-else-if="userInfo?.role === 'sudo'" class="block text-sm text-gray-500 truncate dark:text-gray-400">Super Admin</span>
         </div>
       </div>
       <ul class="py-2" aria-labelledby="user-menu-button">

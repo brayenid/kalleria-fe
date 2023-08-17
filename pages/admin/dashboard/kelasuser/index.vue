@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useKelasUsersStore } from '~/stores/myKelasUsersAdminStore'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
@@ -8,25 +8,25 @@ definePageMeta({
 const route = useRoute()
 const { $axiosAuth: axios } = useNuxtApp()
 
-const paginationStore = usePaginationStore()
+const kelasUsersStore = useKelasUsersStore()
 const kelasUserList = ref([])
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberKelasUsersAdmin)
+const pageNumber = ref(kelasUsersStore.pageNumberKelasUsers)
 const pageSize = 10
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberKelasUsersAdmin: number })
+  kelasUsersStore.$patch({ pageNumberKelasUsers: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberKelasUsersAdmin: 1 })
+  kelasUsersStore.$patch({ pageNumberKelasUsers: 1 })
 }
 
 // MEMBACA TIAP PERUBAHAN PADA STATE
-paginationStore.$subscribe(async (mutation, state) => {
-  const response = (await axios.get(`/kelasuser?pageSize=${pageSize}&pageNumber=${state.pageNumberKelasUsersAdmin}&search=${state.searchKelasUsersAdmin}`)).data.data
+kelasUsersStore.$subscribe(async (mutation, state) => {
+  const response = (await axios.get(`/kelasuser?pageSize=${pageSize}&pageNumber=${state.pageNumberKelasUsers}&search=${state.searchKelasUsers}`)).data.data
   kelasUserList.value = response.rows
   rowsTotal.value = response.total
 })
@@ -34,11 +34,11 @@ paginationStore.$subscribe(async (mutation, state) => {
 // MELAKUKAN DELAY PADA PENCARIAN SUPAYA MENGHEMAT PEMANGGILAN KE SERVER DENGAN MENGUBAH STATE PINIA UNTUK
 // MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
 let timer
-const debounceSearch = async (value, delay = 500) => {
-  paginationStore.$patch({ pageNumberKelasUsersAdmin: 1 })
+const debounceSearch = async (value, delay = 1000) => {
   clearTimeout(timer)
   timer = setTimeout(async () => {
-    paginationStore.$patch({ searchKelasUsersAdmin: value })
+    kelasUsersStore.pageNumberKelasUsers !== 1 && kelasUsersStore.$patch({ pageNumberKelasUsers: 1 })
+    kelasUsersStore.$patch({ searchKelasUsers: value })
   }, delay)
 }
 
@@ -83,7 +83,8 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberKelasUsersAdmin" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="kelasUsersStore.pageNumberKelasUsers" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>
+stores/myKelasUsersAdminStore

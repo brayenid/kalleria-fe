@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useKelasUsersStore } from '~/stores/myKelasUsersUserStore'
 
 definePageMeta({
   middleware: 'auth-user',
@@ -7,15 +7,14 @@ definePageMeta({
 })
 
 const { $axiosAuth: axios, $scrollTo: scrollTo } = useNuxtApp()
-const paginationStore = usePaginationStore()
+const kelasUsersStore = useKelasUsersStore()
 const kelasUserList = ref([])
 const isLoading = ref(true)
 const route = useRoute()
 const kelasUserEl = ref()
-const sertifikatList = ref([])
 
 // PAGINATION MANDATORY STATE
-const pageNumber = ref(paginationStore.pageNumberKelasUsers)
+const pageNumber = ref(kelasUsersStore.pageNumberKelasUsers)
 const pageSize = 6
 const rowsTotal = ref(0)
 
@@ -24,17 +23,17 @@ const changePage = (number) => {
   const scroll = scrollTo(kelasUserEl.value, 500, {
     offset: -70
   })
-  paginationStore.$patch({ pageNumberKelasUsers: number })
+  kelasUsersStore.$patch({ pageNumberKelasUsers: number })
   setTimeout(() => {
     scroll()
   }, 1000)
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberKelasUsers: 1 })
+  kelasUsersStore.$patch({ pageNumberKelasUsers: 1 })
 }
 
-paginationStore.$subscribe(async (mutation, state) => {
+kelasUsersStore.$subscribe(async (mutation, state) => {
   const response = (await axios.get(`/kelasuser/user?pageSize=${pageSize}&pageNumber=${state.pageNumberKelasUsers}`)).data.data
   kelasUserList.value = response.rows
 })
@@ -46,9 +45,6 @@ onMounted(async () => {
   }
   rowsTotal.value = response.total
   kelasUserList.value = response.rows
-
-  const sertifikatResponse = (await axios.get('/sertifikat/users')).data.data
-  sertifikatList.value = sertifikatResponse
 })
 </script>
 
@@ -109,9 +105,10 @@ onMounted(async () => {
           <div v-if="isLoading">
             <UserDashboardKelasSkeleton :number-of-skeleton="6" />
           </div>
-          <Paginations :page-number="paginationStore.pageNumberKelasUsers" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+          <Paginations :page-number="kelasUsersStore.pageNumberKelasUsers" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
         </div>
       </div>
     </section>
   </div>
 </template>
+stores/myKelasUsersUserStore

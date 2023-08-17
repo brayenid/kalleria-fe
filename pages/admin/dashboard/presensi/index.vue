@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { usePresensiStore } from '~/stores/myPresensiAdminStore'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
@@ -8,24 +8,24 @@ definePageMeta({
 const route = useRoute()
 const { $axiosAuth: axios } = useNuxtApp()
 
-const paginationStore = usePaginationStore()
+const presensiStore = usePresensiStore()
 const presensiList = ref([])
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberPresensi)
+const pageNumber = ref(presensiStore.pageNumberPresensi)
 const pageSize = 10
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberPresensi: number })
+  presensiStore.$patch({ pageNumberPresensi: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberPresensi: 1 })
+  presensiStore.$patch({ pageNumberPresensi: 1 })
 }
 
 // MEMBACA TIAP PERUBAHAN PADA STATE
-paginationStore.$subscribe(async (mutation, state) => {
+presensiStore.$subscribe(async (mutation, state) => {
   const response = (await axios.get(`/absen?pageSize=${pageSize}&pageNumber=${state.pageNumberPresensi}&search=${state.searchPresensi}`)).data.data
   presensiList.value = response.rows
   rowsTotal.value = response.total
@@ -34,11 +34,11 @@ paginationStore.$subscribe(async (mutation, state) => {
 // MELAKUKAN DELAY PADA PENCARIAN SUPAYA MENGHEMAT PEMANGGILAN KE SERVER DENGAN MENGUBAH STATE PINIA UNTUK
 // MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
 let timer
-const debounceSearch = async (value, delay = 500) => {
-  paginationStore.$patch({ pageNumberPresensi: 1 })
+const debounceSearch = async (value, delay = 1000) => {
   clearTimeout(timer)
   timer = setTimeout(async () => {
-    paginationStore.$patch({ searchPresensi: value })
+    presensiStore.pageNumberPresensi !== 1 && presensiStore.$patch({ pageNumberPresensi: 1 })
+    presensiStore.$patch({ searchPresensi: value })
   }, delay)
 }
 
@@ -83,7 +83,7 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberPresensi" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="presensiStore.pageNumberPresensi" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>

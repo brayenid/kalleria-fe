@@ -75,7 +75,10 @@ a {
         </h3>
         <div id="accordion-open-body-2" class="hidden" aria-labelledby="accordion-open-heading-2">
           <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-            <p class="faq-content">Setelah anda mendaftar dengan data yang valid, anda akan memiliki akses ke dashboard anda, di sana anda akan menemukan halaman beli kelas.</p>
+            <p class="faq-content">
+              Dalam pembelian kelas, anda dapat datang langsung ke kantor LPK Kalleria untuk membeli kelas atau membeli secara mandiri dengan cara, setelah anda mendaftar dengan data yang valid, anda akan memiliki akses ke dashboard anda,
+              di sana anda akan menemukan halaman beli kelas.
+            </p>
             <p class="faq-content">
               Pilih kelas yang ingin dibeli, klik beli kelas, buka halaman transaksi, lihat transaksi dengan status "dibayar", klik kirim bukti bayar, lakukan transfer ke nomor rekening yang terlihat di halaman tersebut, tunggu hasil
               tinjauan admin, jika status anda diterima pada transaksi, anda sudah dapat mengikuti kelas. Atau anda dapat melihat <a href="/tutorial/belikelas" target="_blank">tutorial beli kelas</a>.

@@ -35,7 +35,8 @@ const lastPaginationNumber = computed(() => {
 
 // KEDUA FUNGSI INI MENGEMBALIKAN RANGE DATA YANG DIAMBIL PADA HAL. YANG BERSANGKUTAN
 const shownPageRangesStart = computed(() => {
-  return props.pageNumber === 1 ? 1 : props.pageNumber * props.pageSize - props.pageSize + 1
+  const range = props.pageNumber === 1 ? 1 : props.pageNumber * props.pageSize - props.pageSize + 1
+  return range < props.rowsTotal ? range : props.rowsTotal
 })
 const shownPageRangesEnd = computed(() => {
   const rangeEnd = props.pageNumber * props.pageSize

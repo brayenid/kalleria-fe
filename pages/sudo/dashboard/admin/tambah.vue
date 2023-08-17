@@ -13,8 +13,9 @@ const password = ref('')
 const passwordConf = ref('')
 
 const usernameError = ref('')
+
 const isSpecValid = computed(() => {
-  return isPasswordValid.value && isPasswordMatched.value ? true : false
+  return isPasswordValid.value && isPasswordMatched.value && isUsernameValid() ? true : false
 })
 
 const isPasswordValid = computed(() => {
@@ -31,6 +32,16 @@ const isShowErrorPassSpec = computed(() => {
 const isShowErrorPassMatched = computed(() => {
   return passwordConf.value ? true : false
 })
+
+const isUsernameValid = () => {
+  usernameError.value = ''
+  const regex = /^[a-zA-Z0-9_]*$/
+  if (!regex.test(username.value)) {
+    usernameError.value = 'Tanpa karakter spesial dan spasi'
+    return false
+  }
+  return true
+}
 
 const submitForm = async () => {
   const payload = {
@@ -53,9 +64,7 @@ const submitForm = async () => {
       Swal.fire({
         icon: 'success',
         title: 'Berhasil',
-        text: 'Berhasil menambah admin',
-        showCancelButton: true,
-        cancelButtonText: 'Tutup'
+        text: 'Berhasil menambah admin'
       })
       submitFormEl.value.reset()
     } catch (error) {
@@ -63,9 +72,7 @@ const submitForm = async () => {
       Swal.fire({
         icon: 'error',
         title: 'Oops',
-        text: 'Gagal menambah admin',
-        showCancelButton: true,
-        cancelButtonText: 'Tutup'
+        text: 'Gagal menambah admin'
       })
     }
   }
@@ -82,7 +89,7 @@ const submitForm = async () => {
         <form @submit.prevent="submitForm" ref="submitFormEl">
           <div class="mb-6">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >Username <span v-if="usernameError" class="text-red-600">({{ usernameError }})</span></label
+              >Username <span v-show="usernameError" class="text-red-600">({{ usernameError }})</span></label
             >
             <input
               type="text"
@@ -90,6 +97,7 @@ const submitForm = async () => {
               v-model="username"
               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
               placeholder="Masukan username"
+              @input="isUsernameValid"
               required
             />
           </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useSertifikatStore } from '~/stores/mySertifikatAdminStore'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
@@ -8,25 +8,25 @@ definePageMeta({
 const route = useRoute()
 const { $axiosAuth: axios } = useNuxtApp()
 
-const paginationStore = usePaginationStore()
+const sertifikatStore = useSertifikatStore()
 const sertifikatList = ref([])
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberSertifikatAdmin)
+const pageNumber = ref(sertifikatStore.pageNumberSertifikat)
 const pageSize = 10
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberSertifikatAdmin: number })
+  sertifikatStore.$patch({ pageNumberSertifikat: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberSertifikatAdmin: 1 })
+  sertifikatStore.$patch({ pageNumberSertifikat: 1 })
 }
 
 // MEMBACA TIAP PERUBAHAN PADA STATE
-paginationStore.$subscribe(async (mutation, state) => {
-  const response = (await axios.get(`/sertifikat?pageSize=${pageSize}&pageNumber=${state.pageNumberSertifikatAdmin}&search=${state.searchSertifikat}`)).data.data
+sertifikatStore.$subscribe(async (mutation, state) => {
+  const response = (await axios.get(`/sertifikat?pageSize=${pageSize}&pageNumber=${state.pageNumberSertifikat}&search=${state.searchSertifikat}`)).data.data
   sertifikatList.value = response.rows
   rowsTotal.value = response.total
 })
@@ -34,11 +34,11 @@ paginationStore.$subscribe(async (mutation, state) => {
 // MELAKUKAN DELAY PADA PENCARIAN SUPAYA MENGHEMAT PEMANGGILAN KE SERVER DENGAN MENGUBAH STATE PINIA UNTUK
 // MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
 let timer
-const debounceSearch = async (value, delay = 500) => {
-  paginationStore.$patch({ pageNumberSertifikatAdmin: 1 })
+const debounceSearch = async (value, delay = 1000) => {
   clearTimeout(timer)
   timer = setTimeout(async () => {
-    paginationStore.$patch({ searchSertifikat: value })
+    sertifikatStore.pageNumberSertifikat !== 1 && sertifikatStore.$patch({ pageNumberSertifikat: 1 })
+    sertifikatStore.$patch({ searchSertifikat: value })
   }, delay)
 }
 
@@ -79,7 +79,8 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberTransaksiAdmin" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="sertifikatStore.pageNumberSertifikat" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>
+stores/mySertifikatAdminStore

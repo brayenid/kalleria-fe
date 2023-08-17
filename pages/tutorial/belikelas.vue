@@ -8,6 +8,9 @@ useSeoMeta({
 .step {
   @apply pb-10 border-b border-gray-300;
 }
+.step img {
+  @apply mt-8 mx-auto border border-gray-200;
+}
 </style>
 
 <template>
@@ -16,8 +19,12 @@ useSeoMeta({
       <h1 class="text-2xl font-bold text-center">Tutorial Beli Kelas di LPK Kalleria</h1>
       <p class="text-sm text-center w-full text-gray-400">dubble.so</p>
     </div>
+    <article>
+      Pada halaman ini ada akan melihat tutorial/tata cara pembelian kelas secara online/daring. Silahkan disimak dari langkah-langkah berikut, jika ada kesulitan jangan sungkan untuk menghubungi kami di kontak pada halaman utama, dan
+      informasi juga bahwa kelas dapat dibeli secara offline/luring dengan datang secara langsung ke kantor LPK Kalleria.
+    </article>
     <div class="my-10">
-      <video controls class="w-full mb-4">
+      <video controls class="w-full mb-4 !p-4 !bg-blue-300 !rounded">
         <source src="https://dubble.so/media/video/04214fb0-087d-48a5-bc60-947281e6e19b" type="video/mp4" />
       </video>
     </div>

@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useUsersStore } from '~/stores/myUsersStore'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
@@ -8,24 +8,24 @@ definePageMeta({
 const route = useRoute()
 const { $axiosAuth: axios } = useNuxtApp()
 
-const paginationStore = usePaginationStore()
+const usersStore = useUsersStore()
 const usersList = ref([])
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberUsers)
-const pageSize = 2
+const pageNumber = ref(usersStore.pageNumberUsers)
+const pageSize = 10
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberUsers: number })
+  usersStore.$patch({ pageNumberUsers: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberUsers: 1 })
+  usersStore.$patch({ pageNumberUsers: 1 })
 }
 
 // MEMBACA TIAP PERUBAHAN PADA STATE
-paginationStore.$subscribe(async (mutation, state) => {
+usersStore.$subscribe(async (mutation, state) => {
   const response = (await axios.get(`/users?pageSize=${pageSize}&pageNumber=${state.pageNumberUsers}&search=${state.searchUser}`)).data.data
   usersList.value = response.rows
   rowsTotal.value = response.total
@@ -34,11 +34,11 @@ paginationStore.$subscribe(async (mutation, state) => {
 // MELAKUKAN DELAY PADA PENCARIAN SUPAYA MENGHEMAT PEMANGGILAN KE SERVER DENGAN MENGUBAH STATE PINIA UNTUK
 // MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
 let timer
-const debounceSearch = async (value, delay = 500) => {
-  paginationStore.$patch({ pageNumberUsers: 1 })
+const debounceSearch = async (value, delay = 1000) => {
   clearTimeout(timer)
   timer = setTimeout(async () => {
-    paginationStore.$patch({ searchUser: value })
+    usersStore.pageNumberUsers !== 1 && usersStore.$patch({ pageNumberUsers: 1 })
+    usersStore.$patch({ searchUser: value })
   }, delay)
 }
 
@@ -87,7 +87,8 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberUsers" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="usersStore.pageNumberUsers" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>
+stores/myUsersStore

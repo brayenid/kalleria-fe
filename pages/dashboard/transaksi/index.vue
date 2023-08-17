@@ -1,32 +1,32 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useTransaksiStore } from '~/stores/myTransaksiUserStore'
 
 definePageMeta({
   middleware: 'auth-user',
   layout: 'user-dashboard'
 })
 
-const paginationStore = usePaginationStore()
+const transaksiStore = useTransaksiStore()
 const { $axiosAuth: axios } = useNuxtApp()
 const transaksiList = ref([])
 const route = useRoute()
 
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberTransaksiUser)
+const pageNumber = ref(transaksiStore.pageNumberTransaksi)
 const pageSize = 5
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberTransaksiUser: number })
+  transaksiStore.$patch({ pageNumberTransaksi: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberTransaksiUser: 1 })
+  transaksiStore.$patch({ pageNumberTransaksi: 1 })
 }
 
-paginationStore.$subscribe(async (mutation, state) => {
-  const response = (await axios.get(`/transaksi/user?pageSize=${pageSize}&pageNumber=${state.pageNumberTransaksiUser}`)).data.data
+transaksiStore.$subscribe(async (mutation, state) => {
+  const response = (await axios.get(`/transaksi/user?pageSize=${pageSize}&pageNumber=${state.pageNumberTransaksi}`)).data.data
   transaksiList.value = response.rows
 })
 
@@ -90,7 +90,7 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberTransaksiUser" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="transaksiStore.pageNumberTransaksi" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>

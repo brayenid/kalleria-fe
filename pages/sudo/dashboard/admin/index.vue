@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useAdminsStore } from '~/stores/myAdminsStore'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
@@ -8,24 +8,24 @@ definePageMeta({
 const route = useRoute()
 const { $axiosAuth: axios } = useNuxtApp()
 
-const paginationStore = usePaginationStore()
+const adminsStore = useAdminsStore()
 const adminsList = ref([])
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberAdmins)
+const pageNumber = ref(adminsStore.pageNumberAdmins)
 const pageSize = 10
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberAdmins: number })
+  adminsStore.$patch({ pageNumberAdmins: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberAdmins: 1 })
+  adminsStore.$patch({ pageNumberAdmins: 1 })
 }
 
 // MEMBACA TIAP PERUBAHAN PADA STATE
-paginationStore.$subscribe(async (mutation, state) => {
+adminsStore.$subscribe(async (mutation, state) => {
   const response = (await axios.get(`/admins?pageSize=${pageSize}&pageNumber=${state.pageNumberAdmins}&search=${state.searchAdmin}`)).data.data
   adminsList.value = response.rows
   rowsTotal.value = response.total
@@ -40,11 +40,11 @@ const updatedDeleteFunc = async () => {
 // MELAKUKAN DELAY PADA PENCARIAN SUPAYA MENGHEMAT PEMANGGILAN KE SERVER DENGAN MENGUBAH STATE PINIA UNTUK
 // MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
 let timer
-const debounceSearch = async (value, delay = 500) => {
-  paginationStore.$patch({ pageNumberAdmins: 1 })
+const debounceSearch = async (value, delay = 1000) => {
   clearTimeout(timer)
   timer = setTimeout(async () => {
-    paginationStore.$patch({ searchAdmin: value })
+    adminsStore.pageNumberAdmins !== 1 && adminsStore.$patch({ pageNumberAdmins: 1 })
+    adminsStore.$patch({ searchAdmin: value })
   }, delay)
 }
 
@@ -54,8 +54,6 @@ onMounted(async () => {
   rowsTotal.value = response.total
 })
 </script>
-
-<style lang="scss" scoped></style>
 
 <template>
   <div>
@@ -93,7 +91,7 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberAdmins" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="adminsStore.pageNumberAdmins" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>

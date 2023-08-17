@@ -1,5 +1,5 @@
 <script setup>
-import { usePaginationStore } from '~/stores/myPaginationStore'
+import { useTransaksiStore } from '~/stores/myTransaksiAdminStore'
 definePageMeta({
   middleware: 'auth-admin',
   layout: 'admin-dashboard'
@@ -8,29 +8,29 @@ definePageMeta({
 const route = useRoute()
 const { $axiosAuth: axios } = useNuxtApp()
 
-const paginationStore = usePaginationStore()
+const transaksiStore = useTransaksiStore()
 const transaksiList = ref([])
 // PROPERTY WAJIB PAGINATION COMP
-const pageNumber = ref(paginationStore.pageNumberTransaksiAdmin)
+const pageNumber = ref(transaksiStore.pageNumberTransaksi)
 const pageSize = 10
 const rowsTotal = ref(0)
 
 // FUNGSI WAJIB UNTUK DIPASS DI PAGINATION COMP
 const changePage = (number) => {
-  paginationStore.$patch({ pageNumberTransaksiAdmin: number })
+  transaksiStore.$patch({ pageNumberTransaksi: number })
 }
 
 const resetPageValue = () => {
-  paginationStore.$patch({ pageNumberTransaksiAdmin: 1 })
+  transaksiStore.$patch({ pageNumberTransaksi: 1 })
 }
 
 const getChangedStatusValue = (e) => {
-  paginationStore.$patch({ filterTransaksi: e.target.value })
+  transaksiStore.$patch({ filterTransaksi: e.target.value })
 }
 
 // MEMBACA TIAP PERUBAHAN PADA STATE
-paginationStore.$subscribe(async (mutation, state) => {
-  const response = (await axios.get(`/transaksi?pageSize=${pageSize}&pageNumber=${state.pageNumberTransaksiAdmin}&search=${state.searchTransaksi}&status=${state.filterTransaksi}`)).data.data
+transaksiStore.$subscribe(async (mutation, state) => {
+  const response = (await axios.get(`/transaksi?pageSize=${pageSize}&pageNumber=${state.pageNumberTransaksi}&search=${state.searchTransaksi}&status=${state.filterTransaksi}`)).data.data
   transaksiList.value = response.rows
   rowsTotal.value = response.total
 })
@@ -38,11 +38,11 @@ paginationStore.$subscribe(async (mutation, state) => {
 // MELAKUKAN DELAY PADA PENCARIAN SUPAYA MENGHEMAT PEMANGGILAN KE SERVER DENGAN MENGUBAH STATE PINIA UNTUK
 // MEN-TRINGGER PENCARIAN PADA METODE SUBSCIBING DI ATAS
 let timer
-const debounceSearch = async (value, delay = 500) => {
-  paginationStore.$patch({ pageNumberUsers: 1 })
+const debounceSearch = async (value, delay = 1000) => {
   clearTimeout(timer)
   timer = setTimeout(async () => {
-    paginationStore.$patch({ searchTransaksi: value })
+    transaksiStore.pageNumberTransaksi !== 1 && transaksiStore.$patch({ pageNumberTransaksi: 1 })
+    transaksiStore.$patch({ searchTransaksi: value })
   }, delay)
 }
 
@@ -52,9 +52,6 @@ onMounted(async () => {
   rowsTotal.value = response.total
 })
 </script>
-
-<style lang="scss" scoped></style>
-
 <template>
   <div>
     <Breadcrumbs :path="route.path" last-point="Daftar Transaksi" :start-index="2" :slice-link="2" />
@@ -108,7 +105,8 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-      <Paginations :page-number="paginationStore.pageNumberTransaksiAdmin" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
+      <Paginations :page-number="transaksiStore.pageNumberTransaksi" :page-size="pageSize" :rows-total="rowsTotal" :change-page-func="changePage" :reset-page-value-func="resetPageValue" />
     </div>
   </div>
 </template>
+stores/myTransaksiAdminStore
