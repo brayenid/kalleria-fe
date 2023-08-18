@@ -1,6 +1,19 @@
 <script setup>
 import { useAuthStore } from '~/stores/myAuthStore'
 const authStore = useAuthStore()
+
+onMounted(() => {
+  const menuLinkElements = document.querySelectorAll('.menu-link')
+  const menuSubLinkElements = document.querySelectorAll('.menu-link_sub-link')
+
+  menuLinkElements.forEach((element) => {
+    element.setAttribute('data-drawer-hide', 'drawer-navigation')
+  })
+
+  menuSubLinkElements.forEach((element) => {
+    element.setAttribute('data-drawer-hide', 'drawer-navigation')
+  })
+})
 </script>
 <style lang="postcss" scoped>
 .menu-link {

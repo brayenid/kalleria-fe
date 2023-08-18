@@ -11,7 +11,7 @@
           <IconsDrawer />
           <span class="sr-only">Toggle sidebar</span>
         </button>
-        <NavbarTitleLogo title-text="Kalleria" class="mr-4" />
+        <NavbarTitleLogo data-drawer-hide="drawer-navigation" title-text="Kalleria" class="mr-4" />
       </div>
       <div class="flex items-center lg:order-2">
         <!-- Users Pop Up -->
