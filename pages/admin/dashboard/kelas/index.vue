@@ -26,7 +26,7 @@ const debounceSearch = async (value, delay = 1000) => {
 
 // PAGINATION MANDATORY STATE
 const pageNumber = ref(kelasListStore.pageNumberKelas)
-const pageSize = 6
+const pageSize = 3
 const rowsTotal = ref(0)
 
 // PAGINATION MANDATORY FUNC
@@ -58,6 +58,9 @@ onMounted(async () => {
 
   rowsTotal.value = response.total
   kelasList.value = response.rows
+})
+onUnmounted(() => {
+  kelasListStore.$patch({ searchKelas: '' })
 })
 </script>
 

@@ -51,6 +51,10 @@ onMounted(async () => {
   transaksiList.value = response.rows
   rowsTotal.value = response.total
 })
+
+onUnmounted(() => {
+  transaksiStore.$patch({ searchTransaksi: '', filterTransaksi: '' })
+})
 </script>
 <template>
   <div>

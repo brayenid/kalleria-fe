@@ -53,6 +53,10 @@ onMounted(async () => {
   adminsList.value = response.rows
   rowsTotal.value = response.total
 })
+
+onUnmounted(() => {
+  adminsStore.$patch({ searchAdmin: '' })
+})
 </script>
 
 <template>

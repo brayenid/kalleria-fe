@@ -47,9 +47,11 @@ onMounted(async () => {
   presensiList.value = response.rows
   rowsTotal.value = response.total
 })
-</script>
 
-<style lang="scss" scoped></style>
+onUnmounted(() => {
+  presensiStore.$patch({ searchPresensi: '' })
+})
+</script>
 
 <template>
   <div>

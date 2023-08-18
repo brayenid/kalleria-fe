@@ -47,6 +47,10 @@ onMounted(async () => {
   kelasUserList.value = response.rows
   rowsTotal.value = response.total
 })
+
+onUnmounted(() => {
+  kelasUsersStore.$patch({ searchKelasUsers: '' })
+})
 </script>
 
 <template>

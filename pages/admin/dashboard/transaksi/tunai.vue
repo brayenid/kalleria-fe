@@ -11,19 +11,19 @@ const { $axiosAuth: axios, $Swal: Swal } = useNuxtApp()
 const route = useRoute()
 
 const kelasList = ref([])
+const kelasListInput = ref('')
+const kelasListInputEl = ref()
+
 const userList = ref([])
 const userInput = ref('')
 const userInputEl = ref()
-const hargaKelas = ref(0)
-const getKelasDetail = async (e) => {
-  const response = (await axios.get(`/kelas/${e.target.value}`)).data.data.hargaKelas
-  hargaKelas.value = useCurrency(response)
-}
 
-let timer
-const debounceSearch = async (value, delay = 500) => {
-  clearTimeout(timer)
-  timer = setTimeout(async () => {
+const hargaKelas = ref(0)
+
+let timerUser
+const debounceSearchUser = async (value, delay = 500) => {
+  clearTimeout(timerUser)
+  timerUser = setTimeout(async () => {
     if (userInput.value) {
       const response = (await axios.get(`/users?pageSize=10&search=${value}`)).data.data
       userList.value = response.rows
@@ -37,9 +37,29 @@ const setUserInput = (input) => {
   userInput.value = input
   userList.value = []
 }
-
 const resetUserList = () => {
   userList.value = []
+}
+
+let timerKelas
+const debounceSearchKelas = async (value, delay = 500) => {
+  clearTimeout(timerKelas)
+  timerKelas = setTimeout(async () => {
+    if (kelasListInput.value) {
+      const response = (await axios.get(`/kelas?pageSize=15&search=${value}`)).data.data
+      kelasList.value = response.rows
+    } else {
+      kelasList.value = []
+    }
+  }, delay)
+}
+
+const setKelasListInput = (input) => {
+  kelasListInput.value = input
+  kelasList.value = []
+}
+const resetKelasList = () => {
+  kelasList.value = []
 }
 
 const submitForm = async (e) => {
@@ -76,11 +96,6 @@ const submitForm = async (e) => {
     }
   }
 }
-
-onMounted(async () => {
-  const response = (await axios.get('/kelas?pageSize=100')).data.data
-  kelasList.value = response.rows
-})
 </script>
 
 <template>
@@ -92,17 +107,25 @@ onMounted(async () => {
         <div class="p-8 space-y-6">
           <h2 class="mb-8 text-xl text-center font-bold text-gray-900 dark:text-white">Pembelian Kelas Tunai</h2>
           <form class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
-            <div>
-              <label for="kelasId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Kelas</label>
-              <select
-                @change="getKelasDetail"
-                id="kelasId"
+            <div class="relative">
+              <label for="kelasId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Kelas</label>
+              <input
+                ref="kelasListInputEl"
+                v-model="kelasListInput"
+                @input="debounceSearchKelas(kelasListInput)"
+                type="text"
                 name="kelasId"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option selected>--- Pilih Kelas ---</option>
-                <option v-for="kelas in kelasList" :key="kelas?.id" :value="kelas?.id">{{ kelas?.namaKelas }} ({{ kelas?.id }})</option>
-              </select>
+                id="kelasId"
+                placeholder="Masukan ID Kelas"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                required
+                autocomplete="off"
+              />
+              <div v-click-outside="resetKelasList" v-if="kelasList.length" class="bg-gray-50 w-full border border-gray-300 absolute rounded z-50">
+                <ul class="flex flex-col text-sm">
+                  <li class="suggestion" @click="setKelasListInput(kelas.id)" v-for="kelas in kelasList" :key="kelas.id">{{ kelas.namaKelas }} ({{ kelas.id }})</li>
+                </ul>
+              </div>
             </div>
             <div>
               <label for="hargaKelas" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga Kelas</label>
@@ -133,7 +156,7 @@ onMounted(async () => {
               <input
                 ref="userInputEl"
                 v-model="userInput"
-                @input="debounceSearch(userInput)"
+                @input="debounceSearchUser(userInput)"
                 type="text"
                 name="userId"
                 id="userId"
@@ -142,9 +165,9 @@ onMounted(async () => {
                 required
                 autocomplete="off"
               />
-              <div v-click-outside="resetUserList" v-if="userList.length" class="bg-gray-50 w-full border border-gray-300 absolute rounded">
+              <div v-click-outside="resetUserList" v-if="userList.length" class="bg-gray-50 w-full border border-gray-300 absolute rounded z-50">
                 <ul class="flex flex-col text-sm">
-                  <li class="hover:bg-gray-100 p-2 cursor-pointer" @click="setUserInput(user.id)" v-for="user in userList" :key="user.id">{{ user.nama }} ({{ user.id }})</li>
+                  <li class="suggestion" @click="setUserInput(user.id)" v-for="user in userList" :key="user.id">{{ user.nama }} ({{ user.id }})</li>
                 </ul>
               </div>
             </div>

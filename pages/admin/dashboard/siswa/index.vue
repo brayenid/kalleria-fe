@@ -47,6 +47,10 @@ onMounted(async () => {
   usersList.value = response.rows
   rowsTotal.value = response.total
 })
+
+onUnmounted(() => {
+  usersStore.$patch({ searchUser: '' })
+})
 </script>
 
 <style lang="scss" scoped></style>

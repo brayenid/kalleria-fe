@@ -47,6 +47,10 @@ onMounted(async () => {
   sertifikatList.value = response.rows
   rowsTotal.value = response.total
 })
+
+onUnmounted(() => {
+  sertifikatStore.$patch({ searchSertifikat: '' })
+})
 </script>
 
 <template>

@@ -1,5 +1,3 @@
-<script setup></script>
-
 <style lang="postcss" scoped>
 .slide {
   @apply p-6 bg-gray-50 h-[380px] rounded shadow-sm cursor-grab;

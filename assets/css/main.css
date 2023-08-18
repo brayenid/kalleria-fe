@@ -15,3 +15,7 @@ img {
 input::placeholder {
   @apply text-gray-500 !opacity-100;
 }
+
+.suggestion {
+  @apply hover:bg-gray-100 p-2 cursor-pointer border-b border-gray-200;
+}

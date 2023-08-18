@@ -59,6 +59,10 @@ onMounted(async () => {
   rowsTotal.value = response.total
   kelasList.value = response.rows
 })
+
+onUnmounted(() => {
+  kelasListStore.$patch({ searchKelas: '' })
+})
 </script>
 
 <style lang="postcss" scoped>
