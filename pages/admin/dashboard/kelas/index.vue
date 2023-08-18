@@ -26,7 +26,7 @@ const debounceSearch = async (value, delay = 1000) => {
 
 // PAGINATION MANDATORY STATE
 const pageNumber = ref(kelasListStore.pageNumberKelas)
-const pageSize = 3
+const pageSize = 6
 const rowsTotal = ref(0)
 
 // PAGINATION MANDATORY FUNC
