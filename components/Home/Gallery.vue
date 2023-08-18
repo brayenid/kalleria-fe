@@ -12,7 +12,7 @@
         <p class="mb-5 px-6 font-light text-gray-600 sm:text-xl">Kami menyediakan ruang belajar yang nyaman untuk keberlangsungan belajar anda.</p>
       </div>
       <div>
-        <div class="p-4">
+        <div class="p-4 max-w-full">
           <Swiper
             :modules="[SwiperAutoplay]"
             :slides-per-view="1"
@@ -23,11 +23,8 @@
             :loop="true"
             :space-between="30"
             :breakpoints="{
-              500: {
+              700: {
                 slidesPerView: 2
-              },
-              750: {
-                slidesPerView: 3
               }
             }"
           >
