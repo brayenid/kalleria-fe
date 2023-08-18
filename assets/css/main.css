@@ -4,7 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+a,
+button,
+li {
   @apply transition-all;
 }
 
@@ -25,5 +27,5 @@ input::placeholder {
 }
 
 .suggestion-container {
-  @apply bg-gray-50 w-full border border-gray-300 absolute rounded z-50 max-h-56 overflow-y-auto;
+  @apply bg-gray-50 w-full border border-gray-300 absolute rounded z-50 max-h-32 overflow-y-auto;
 }
