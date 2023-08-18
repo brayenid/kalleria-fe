@@ -17,7 +17,7 @@ a {
 
 <template>
   <section id="faq" class="bg-white py-12">
-    <div class="max-w-screen-md mx-auto px-4">
+    <div class="max-w-screen-md mx-auto p-6 md:px-4">
       <h2 class="text-2xl font-bold text-gray-900 text-center py-12 pt-0">Pertanyaan Yang Sering Diajukan</h2>
       <div id="accordion-open" data-accordion="collapse">
         <h3 id="accordion-open-heading-1">

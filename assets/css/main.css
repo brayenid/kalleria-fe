@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  @apply transition-all;
+}
+
 body {
   @apply font-poppins bg-gray-100;
 }
@@ -18,4 +22,8 @@ input::placeholder {
 
 .suggestion {
   @apply hover:bg-gray-100 p-2 cursor-pointer border-b border-gray-200;
+}
+
+.suggestion-container {
+  @apply bg-gray-50 w-full border border-gray-300 absolute rounded z-50 max-h-56 overflow-y-auto;
 }

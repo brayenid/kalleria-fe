@@ -1,7 +1,7 @@
 <template>
   <section id="about" class="flex justify-center p-8 py-16 md:py-24">
     <div class="flex flex-col md:flex-row max-w-screen-lg gap-16 justify-center items-start">
-      <div class="flex justify-center items-center w-full">
+      <div data-aos="zoom-in" class="flex justify-center items-center w-full">
         <NuxtImg class="w-52 md:w-60" src="/images/kalleria-logo.png" alt="logo kalleria" />
       </div>
       <div class="text-center md:text-left">

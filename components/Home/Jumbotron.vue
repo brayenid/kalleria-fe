@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <section id="jumbotron" class="bg-white">
     <div class="flex flex-col md:flex-row text-center md:text-left items-center justify-between max-w-screen-lg px-4 pt-16 mx-auto">
@@ -20,7 +18,7 @@
           </svg>
         </a>
       </div>
-      <div class="md:mt-0 md:col-span-5 md:flex">
+      <div data-aos="zoom-in" class="md:mt-0 md:col-span-5 md:flex">
         <NuxtImg class="max-w-sm" src="/images/girl-thinking-animated.png" alt="girl-thinking" />
       </div>
     </div>

@@ -95,9 +95,9 @@ const submitForm = async (e) => {
                 required
                 autocomplete="off"
               />
-              <div v-click-outside="resetUserList" v-if="userList.length" class="bg-gray-50 w-full border border-gray-300 absolute rounded">
+              <div v-click-outside="resetUserList" v-if="userList.length" class="suggestion-container">
                 <ul class="flex flex-col text-sm">
-                  <li class="hover:bg-gray-100 p-2 cursor-pointer" @click="setUserInput(user.id)" v-for="user in userList" :key="user.id">{{ user.nama }} ({{ user.id }})</li>
+                  <li class="suggestion" @click="setUserInput(user.id)" v-for="user in userList" :key="user.id">{{ user.nama }}</li>
                 </ul>
               </div>
             </div>

@@ -19,6 +19,7 @@
   "dependencies": {
     "@pinia/nuxt": "^0.4.11",
     "@vuepic/vue-datepicker": "^5.4.0",
+    "aos": "^2.3.4",
     "axios": "^1.4.0",
     "click-outside-vue3": "^4.0.1",
     "downloadjs": "^1.4.7",

@@ -20,7 +20,7 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="max-w-full overflow-hidden">
+  <div>
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>

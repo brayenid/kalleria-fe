@@ -20,6 +20,11 @@ const userInputEl = ref()
 
 const hargaKelas = ref(0)
 
+const getKelasDetail = async (value) => {
+  const response = (await axios.get(`/kelas/${value}`)).data.data.hargaKelas
+  hargaKelas.value = useCurrency(response)
+}
+
 let timerUser
 const debounceSearchUser = async (value, delay = 500) => {
   clearTimeout(timerUser)
@@ -56,6 +61,7 @@ const debounceSearchKelas = async (value, delay = 500) => {
 
 const setKelasListInput = (input) => {
   kelasListInput.value = input
+  getKelasDetail(input)
   kelasList.value = []
 }
 const resetKelasList = () => {
@@ -117,13 +123,13 @@ const submitForm = async (e) => {
                 name="kelasId"
                 id="kelasId"
                 placeholder="Masukan ID Kelas"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
                 autocomplete="off"
               />
-              <div v-click-outside="resetKelasList" v-if="kelasList.length" class="bg-gray-50 w-full border border-gray-300 absolute rounded z-50">
+              <div v-click-outside="resetKelasList" v-if="kelasList.length" class="suggestion-container">
                 <ul class="flex flex-col text-sm">
-                  <li class="suggestion" @click="setKelasListInput(kelas.id)" v-for="kelas in kelasList" :key="kelas.id">{{ kelas.namaKelas }} ({{ kelas.id }})</li>
+                  <li class="suggestion" @click="setKelasListInput(kelas.id)" v-for="kelas in kelasList" :key="kelas.id">{{ kelas.namaKelas }}</li>
                 </ul>
               </div>
             </div>
@@ -135,7 +141,7 @@ const submitForm = async (e) => {
                 name="hargaKelas"
                 id="hargaKelas"
                 placeholder="Harga Kelas"
-                class="bg-gray-50 border border-gray-300 text-gray-600 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-300 text-gray-600 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 disabled
               />
             </div>
@@ -146,7 +152,7 @@ const submitForm = async (e) => {
                 name="maksimalPertemuan"
                 id="maksimalPertemuan"
                 placeholder="Maksimal Pertemuan"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required=""
                 value="18"
               />
@@ -161,13 +167,13 @@ const submitForm = async (e) => {
                 name="userId"
                 id="userId"
                 placeholder="Masukan ID Siswa"
-                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 required
                 autocomplete="off"
               />
-              <div v-click-outside="resetUserList" v-if="userList.length" class="bg-gray-50 w-full border border-gray-300 absolute rounded z-50">
+              <div v-click-outside="resetUserList" v-if="userList.length" class="suggestion-container">
                 <ul class="flex flex-col text-sm">
-                  <li class="suggestion" @click="setUserInput(user.id)" v-for="user in userList" :key="user.id">{{ user.nama }} ({{ user.id }})</li>
+                  <li class="suggestion" @click="setUserInput(user.id)" v-for="user in userList" :key="user.id">{{ user.nama }}</li>
                 </ul>
               </div>
             </div>

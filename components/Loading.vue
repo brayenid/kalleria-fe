@@ -1,3 +1,9 @@
+<script setup>
+const props = defineProps({
+  noBackdrop: Boolean
+})
+</script>
+
 <style>
 .spinner {
   margin: 100px auto;
@@ -17,7 +23,7 @@
   display: inline-block;
   position: absolute;
   top: 0;
-  background-color: #333;
+  background-color: rgb(19, 145, 255);
   border-radius: 100%;
 
   -webkit-animation: sk-bounce 2s infinite ease-in-out;
@@ -67,7 +73,7 @@
 </style>
 
 <template>
-  <div class="w-full min-h-screen fixed top-0 left-0 bg-slate-200/30 flex justify-center items-center z-50">
+  <div class="w-full min-h-screen fixed top-0 left-0 bg-slate-200/30 flex justify-center items-center z-50" :class="{ '!bg-slate-50': noBackdrop }">
     <div class="spinner">
       <div class="dot1"></div>
       <div class="dot2"></div>

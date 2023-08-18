@@ -95,9 +95,9 @@ const submitForm = async (e) => {
                 required
                 autocomplete="off"
               />
-              <div v-click-outside="resetAdminList" v-if="adminList.length" class="bg-gray-50 w-full border border-gray-300 absolute rounded">
+              <div v-click-outside="resetAdminList" v-if="adminList.length" class="suggestion-container">
                 <ul class="flex flex-col text-sm">
-                  <li class="hover:bg-gray-100 p-2 cursor-pointer" @click="setAdminInput(user.id)" v-for="user in adminList" :key="user.id">{{ user.nama }} ({{ user.id }})</li>
+                  <li class="suggestion" @click="setAdminInput(user.id)" v-for="user in adminList" :key="user.id">{{ user.nama }}</li>
                 </ul>
               </div>
             </div>

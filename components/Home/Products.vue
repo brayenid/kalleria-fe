@@ -17,11 +17,11 @@
   <section id="products" class="gradient pt-8 dark:bg-gray-900">
     <div class="max-w-screen-lg overflow-hidden mx-auto">
       <div class="mx-auto text-center mb-8 lg:mb-12">
-        <h2 class="mb-4 px-6 text-4xl tracking-tight font-extrabold text-white">Program Belajar Yang Kami Tawarkan</h2>
+        <h2 class="mb-4 text-white text-3xl font-bold">Program Belajar Yang Kami Tawarkan</h2>
         <p class="mb-5 px-6 font-light text-gray-200 sm:text-xl">Kami menawarkan beberapa produk program belajar unggulan untuk anda.</p>
       </div>
       <div class="md:flex items-end px-6 lg:px-0">
-        <div class="hidden md:inline flex-[1]">
+        <div data-aos="zoom-in" class="hidden md:inline flex-[1]">
           <NuxtImg src="/images/girl-thinking-again2.png" alt="girl thinking 2" />
         </div>
         <div class="flex-[1] max-w-full lg:max-w-[700px] py-4">

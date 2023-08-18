@@ -19,19 +19,22 @@ useSeoMeta({
       <h1 class="text-2xl font-bold text-center">Tentang Kami</h1>
       <p class="text-sm text-center w-full text-gray-400">18 Agustus 2023</p>
     </div>
-    <article class="leading-relaxed font-light border-b border-gray-200 pb-8">
+    <article class="leading-relaxed border-b border-gray-200 pb-8">
       <div class="flex justify-center mb-8">
         <NuxtImg class="max-w-[280px]" src="/images/kalleria-logo.png" alt="Logo Kalleria" />
       </div>
-      Selamat datang di Kalleria Group! <br /><br />
+      <span class="font-semibold">Selamat datang di Kalleria Group!</span><br /><br />
       Kami adalah sebuah Lembaga Kursus dan Pelatihan profesional yang beroperasi di Kutai Barat, Indonesia. Berkomitmen untuk memajukan dan meningkatkan Sumber Daya Manusia (SDM), kami berfokus pada memberikan pendidikan berkualitas tinggi
       bagi masyarakat Kutai Barat dan sekitarnya. Kami percaya bahwa dengan memiliki SDM yang unggul, kita dapat bersaing di tingkat nasional dan merespons dinamika perubahan, terutama seiring dengan berpindahnya Ibu Kota negara ke
       Kalimantan Timur. <br /><br />
-      <p class="ml-8">
-        Kontak Kami: Telepon: +62-812-1183-1970 <br />
-        Email: kalleriagroup@gmail.com <br />
-        Alamat: Jl. D.I Panjaitan, RT 014, Busur, Kecamatan Barong Tongkok <br /><br />
-      </p>
+      <div class="ml-8">
+        <ol class="list-disc">
+          <li>Kontak Kami: Telepon: +62-812-1183-1970</li>
+          <li>Email: kalleriagroup@gmail.com</li>
+          <li>Alamat: Jl. D.I Panjaitan, RT 014, Busur, Kecamatan Barong Tongkok</li>
+        </ol>
+      </div>
+      <br />
       Visi kami adalah untuk menjadi pionir dalam pengembangan Sumber Daya Manusia di Kutai Barat dan sekitarnya. Kami percaya bahwa masa depan tergantung pada kualitas individu yang kami bentuk hari ini. Dalam era di mana tantangan dan
       peluang semakin kompleks, kami ingin menjadi mitra Anda dalam membentuk pengetahuan mendalam dan keterampilan praktis yang relevan dengan kebutuhan industri saat ini. Kalleria Group didirikan pada tahun 2023 dengan tekad kuat untuk
       memberikan kontribusi positif bagi masyarakat. Kami menyadari bahwa perubahan dalam tatanan nasional, termasuk pemindahan Ibu Kota, memerlukan persiapan yang matang. Oleh karena itu, kami berkomitmen untuk membantu SDM di Kutai Barat
