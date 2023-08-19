@@ -85,6 +85,7 @@ const submitForm = async (e) => {
 
     alertPopup({ icon: 'success', title: 'Sukses', text: 'Selamat, akun telah terdaftar, silahkan masuk.' })
     registerFormEl.value.reset()
+    return navigateTo('/login')
   } catch (error) {
     isFetching.value = false
     try {

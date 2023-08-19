@@ -57,7 +57,7 @@ table td {
     @apply hidden;
   }
   .print-area {
-    @apply border-0 p-0;
+    @apply bg-transparent border-0;
   }
 }
 </style>

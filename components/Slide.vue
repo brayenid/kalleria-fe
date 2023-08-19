@@ -6,7 +6,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div>
+  <div class="">
     <div class="h-[220px] overflow-hidden flex items-center justify-center my-5 rounded-md">
       <NuxtImg loading="lazy" :src="`/images/ruang/${img}`" class="object-center" :alt="imgTitle" />
     </div>

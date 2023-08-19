@@ -1,3 +1,13 @@
+<script setup>
+const images = [
+  { name: 'komputer-1.jpeg', title: 'Ruang Komputer' },
+  { name: 'komputer-2.jpeg', title: 'Ruang Komputer' },
+  { name: 'teori-1.jpeg', title: 'Ruang Teori' },
+  { name: 'teori-2.jpeg', title: 'Ruang Teori' },
+  { name: 'teori-3.jpeg', title: 'Ruang Teori' }
+]
+</script>
+
 <style lang="postcss" scoped>
 .slide {
   @apply cursor-grab;
@@ -28,20 +38,8 @@
               }
             }"
           >
-            <SwiperSlide class="slide">
-              <Slide img="komputer-1.jpeg" img-title="Ruang Komputer" />
-            </SwiperSlide>
-            <SwiperSlide class="slide">
-              <Slide img="komputer-2.jpeg" img-title="Ruang Komputer" />
-            </SwiperSlide>
-            <SwiperSlide class="slide">
-              <Slide img="teori-1.jpeg" img-title="Ruang Teori" />
-            </SwiperSlide>
-            <SwiperSlide class="slide">
-              <Slide img="teori-2.jpeg" img-title="Ruang Teori" />
-            </SwiperSlide>
-            <SwiperSlide class="slide">
-              <Slide img="teori-3.jpeg" img-title="Ruang Teori" />
+            <SwiperSlide v-for="(img, index) in images" :key="index" class="slide">
+              <Slide :img="img.name" img-title="Ruang Komputer" />
             </SwiperSlide>
           </Swiper>
         </div>
