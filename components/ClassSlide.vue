@@ -32,7 +32,7 @@ const pushToRoute = async () => {
 
 <template>
   <div class="group">
-    <div class="min-h-[170px] max-h-[180px] overflow-hidden flex items-start justify-center mb-3">
+    <div class="min-h-[160px] max-h-[180px] overflow-hidden flex items-start justify-center mb-3">
       <NuxtImg class="group-hover:-translate-y-3 transition-all" loading="lazy" :src="`${useRuntimeConfig().public.beEndpoint}/${img}`" :alt="kelasTitle" />
     </div>
     <div class="flex flex-col gap-4 p-4 justify-start text-center h-[140px]">
