@@ -13,6 +13,11 @@
               <p>kalleriagroup@gmail.com</p>
               <p>Jl. D.I Panjaitan, RT 014, Busur, Kecamatan Barong Tongkok</p>
             </div>
+            <div class="mt-4 flex justify-center md:justify-start">
+              <a href="https://instagram.com/lpk.kalleria/" title="Ikuti kami di Instagram" target="_blank" aria-label="instagram" rel="noopener noreferrer">
+                <IconsInstagram />
+              </a>
+            </div>
           </div>
           <div class="text-center md:text-left">
             <h2 class="mb-4 text-sm font-semibold text-gray-900 uppercase">Legal</h2>

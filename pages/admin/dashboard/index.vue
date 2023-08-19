@@ -12,7 +12,7 @@ const usersTotal = ref(0)
 const kelasTotal = ref(0)
 
 onMounted(async () => {
-  const responseTransaksiTotal = (await axios.get('/transaksi?pageSize=1&status=pending')).data.data.total
+  const responseTransaksiTotal = (await axios.get('/transaksi?pageSize=1&status=dibayar')).data.data.total
   transaksiTotal.value = responseTransaksiTotal
 
   const responseUsersTotal = (await axios.get('/users?pageSize=1')).data.data.total
@@ -50,7 +50,7 @@ onMounted(async () => {
 
       <div @click="router.push('/admin/dashboard/transaksi')" class="container-item bg-red-100 hover:bg-red-200 text-red-500">
         <p class="item"><IconsMoney class="icon !text-red-500 text-center" />{{ transaksiTotal }}</p>
-        <p>Transaksi harus ditinjau (pending)</p>
+        <p>Transaksi harus ditinjau (Dibayar)</p>
       </div>
     </div>
   </div>
