@@ -11,7 +11,7 @@ onMounted(async () => {
 </script>
 <style lang="postcss" scoped>
 .slide {
-  @apply bg-gray-50 rounded-md shadow-sm cursor-grab overflow-x-hidden;
+  @apply bg-gray-50 rounded-md shadow-sm cursor-grab overflow-hidden;
 }
 </style>
 
@@ -26,7 +26,7 @@ onMounted(async () => {
 </style>
 <template>
   <section id="products" class="gradient pt-8 dark:bg-gray-900">
-    <div class="max-w-screen-lg overflow-x-hidden mx-auto">
+    <div class="max-w-screen-lg overflow-hidden mx-auto">
       <div class="mx-auto text-center mb-8 lg:mb-12">
         <h2 class="mb-4 text-white text-3xl font-bold">Program Belajar Yang Kami Tawarkan</h2>
         <p class="mb-5 px-6 font-light text-gray-200 sm:text-xl">Kami menawarkan {{ kelasTotal ? kelasTotal : 'beberapa' }} produk program belajar unggulan untuk anda.</p>
@@ -38,7 +38,7 @@ onMounted(async () => {
         <div class="flex-[1] max-w-full lg:max-w-[700px] py-4">
           <Swiper
             class="!pb-12"
-            :modules="[SwiperAutoplay, SwiperPagination, SwiperFreeMode]"
+            :modules="[SwiperAutoplay, SwiperPagination]"
             :slides-per-view="1"
             :autoplay="{
               delay: 4000,
@@ -48,12 +48,9 @@ onMounted(async () => {
               enabled: true,
               clickable: true
             }"
-            :free-mode="{
-              enabled: true,
-              momentum: true
-            }"
             :loop="true"
             :space-between="30"
+            :set-wrapper-size="true"
             :breakpoints="{
               540: {
                 slidesPerView: 2
@@ -66,7 +63,7 @@ onMounted(async () => {
               }
             }"
           >
-            <SwiperSlide class="slide" v-for="kelas in kelasList" :key="kelas.id">
+            <SwiperSlide class="slide !h-auto" v-for="kelas in kelasList" :key="kelas.id">
               <ClassSlide :kelas-id="kelas.id" :kelas-type="kelas.tipeKelas" :img="kelas.thumbnailKelas" :kelas-title="kelas.namaKelas" :kelas-price="kelas.hargaKelas" />
             </SwiperSlide>
           </Swiper>
