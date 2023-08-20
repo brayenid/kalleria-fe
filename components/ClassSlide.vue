@@ -31,19 +31,19 @@ const pushToRoute = async () => {
 </script>
 
 <template>
-  <div class="group h-full relative">
-    <div class="max-h-[160px] overflow-hidden flex items-start justify-center mb-3">
-      <NuxtImg class="group-hover:scale-110 transition-all object-center" loading="lazy" :src="`${useRuntimeConfig().public.beEndpoint}/${img}`" :alt="kelasTitle" />
+  <div class="group">
+    <p class="font-light text-xs absolute top-0 right-0 w-max p-1 bg-orange-200 group-hover:-translate-y-full transition-transform">{{ kelasType }}</p>
+    <div class="overflow-hidden flex items-center justify-center">
+      <NuxtImg class="group-hover:scale-110 transition-all object-cover h-full" loading="lazy" :src="`${useRuntimeConfig().public.beEndpoint}/${img}`" :alt="kelasTitle" />
     </div>
-    <div class="flex flex-col gap-4 p-4 pt-0 mb-14 justify-start text-center h-[130px]">
-      <div>
-        <h4 class="font-semibold text-lg">{{ kelasTitle }}</h4>
-        <p class="font-light text-sm">Tipe Kelas : {{ kelasType }}</p>
+    <div class="rounded-t-md absolute bottom-0 bg-white w-full">
+      <div class="p-2 justify-start text-center">
+        <h4 class="font-semibold sm:text-md">{{ kelasTitle }}</h4>
       </div>
-      <p class="mb-2 flex justify-center items-center gap-2 font-semibold"><IconsMoney class="!text-green-500" />{{ useCurrency(kelasPrice) }}</p>
-    </div>
-    <div class="absolute bottom-0 w-full">
-      <button @click="pushToRoute" class="text-blue-500 bg-blue-50 hover:bg-blue-100 outline-none font-medium focus:bg-blue-200 text-sm w-full px-5 py-2.5 text-center">Beli Kelas</button>
+      <div class="w-full h-full max-h-0 overflow-hidden group-hover:max-h-[138px] transition-all">
+        <p class="mb-2 flex justify-center items-center gap-2"><IconsMoney class="!text-green-500" />{{ useCurrency(kelasPrice) }}</p>
+        <button @click="pushToRoute" class="text-blue-500 bg-blue-50 hover:bg-blue-100 outline-none font-medium focus:bg-blue-200 text-sm w-full px-5 py-2.5 text-center">Beli Kelas</button>
+      </div>
     </div>
   </div>
 </template>

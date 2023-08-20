@@ -55,7 +55,7 @@ onMounted(async () => {
               540: {
                 slidesPerView: 2
               },
-              780: {
+              910: {
                 slidesPerView: 3
               },
               1024: {
