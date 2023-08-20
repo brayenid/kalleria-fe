@@ -42,7 +42,8 @@ onMounted(async () => {
             :slides-per-view="1"
             :autoplay="{
               delay: 4000,
-              disableOnInteraction: false
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true
             }"
             :pagination="{
               enabled: true,
@@ -50,7 +51,6 @@ onMounted(async () => {
             }"
             :loop="true"
             :space-between="30"
-            :set-wrapper-size="true"
             :breakpoints="{
               540: {
                 slidesPerView: 2
