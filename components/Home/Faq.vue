@@ -138,7 +138,7 @@ a {
         </h3>
         <div id="accordion-open-body-4" class="hidden" aria-labelledby="accordion-open-heading-4">
           <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
-            <p class="faq-content">Dalam beberapa kelas, anda akan belajar sampai pada tahap anda bisa, walaupun maksimal pertemuan kelas anda telah terlampaui. Hal ini tidak akan dikenakan biaya tambahan.</p>
+            <p class="faq-content">Dalam beberapa kelas, anda akan belajar sampai pada tahap anda bisa, walaupun maksimal pertemuan kelas anda telah terlampaui. Anda tidak akan dikenakan biaya tambahan untuk hal ini.</p>
           </div>
         </div>
       </div>

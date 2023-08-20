@@ -37,7 +37,7 @@ onMounted(async () => {
         </div>
         <div class="flex-[1] max-w-full lg:max-w-[700px] py-4">
           <Swiper
-            class="!pb-10"
+            class="!pb-2 lg:!pb-10"
             :modules="[SwiperAutoplay]"
             :slides-per-view="1"
             :autoplay="{
