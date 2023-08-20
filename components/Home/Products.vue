@@ -38,12 +38,15 @@ onMounted(async () => {
         <div class="flex-[1] max-w-full lg:max-w-[700px] py-4">
           <Swiper
             class="!pb-12"
-            :modules="[SwiperAutoplay]"
+            :modules="[SwiperAutoplay, SwiperPagination]"
             :slides-per-view="1"
             :autoplay="{
               delay: 4000,
               disableOnInteraction: false,
               pauseOnMouseEnter: true
+            }"
+            :pagination="{
+              enabled: true
             }"
             :loop="true"
             :space-between="30"
