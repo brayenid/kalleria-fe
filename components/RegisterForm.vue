@@ -15,6 +15,8 @@ const isFetching = ref(false)
 
 const errorMessages = reactive({
   username: null,
+  noTelepon: null,
+  jenisKelamin: null,
   password: null,
   confPassword: null
 })
@@ -94,6 +96,12 @@ const submitForm = async (e) => {
         if (e.path === 'username') {
           errorMessages.username = e.msg
         }
+        if (e.path === 'noTelepon') {
+          errorMessages.noTelepon = 'Tidak valid'
+        }
+        if (e.path === 'jenisKelamin') {
+          errorMessages.jenisKelamin = 'Tidak boleh kosong'
+        }
       })
       alertPopup({ title: 'Oops..', text: 'Ada kesalahan pada formulir, silahkan perbaiki.' })
     } catch (error) {
@@ -131,7 +139,7 @@ form.register button {
   <div>
     <Loading v-if="isFetching" />
     <h1 class="text-center text-lg font-semibold mb-10">Daftar Akun</h1>
-    <form @submit.prevent="submitForm" class="register" ref="registerFormEl">
+    <form @submit.prevent="submitForm" @input="" class="register" ref="registerFormEl">
       <div class="grid gap-6 mb-6 md:grid-cols-2">
         <div>
           <label class="labelbio" for="username"
@@ -148,9 +156,11 @@ form.register button {
           <input name="noIdentitas" class="bio" type="text" id="noIdentitas" placeholder="Masukan NIK/Kartu Pelajar/Kartu Mahasiswa" required />
         </div>
         <div>
-          <label class="labelbio" for="jenisKelamin">Jenis Kelamin</label>
-          <select name="jenisKelamin" id="jenisKelamin">
-            <option selected>Pilih jenis kelamin</option>
+          <label class="labelbio" for="jenisKelamin"
+            >Jenis Kelamin <span class="font-normal text-red-600" v-show="errorMessages.jenisKelamin">({{ errorMessages.jenisKelamin }})</span></label
+          >
+          <select name="jenisKelamin" id="jenisKelamin" @change="errorMessages.jenisKelamin = ''">
+            <option selected value="">Pilih jenis kelamin</option>
             <option value="laki-laki">Laki-laki</option>
             <option value="perempuan">Perempuan</option>
           </select>
@@ -186,8 +196,10 @@ form.register button {
           <input name="email" class="bio" type="email" id="email" placeholder="Masukan email" required />
         </div>
         <div>
-          <label class="labelbio" for="noTelepon">No Telepon</label>
-          <input name="noTelepon" class="bio" type="tel" id="noTelepon" placeholder="Masukan no telepon" required />
+          <label class="labelbio" for="noTelepon"
+            >No Telepon <span class="font-normal text-red-600" v-show="errorMessages.noTelepon">({{ errorMessages.noTelepon }})</span></label
+          >
+          <input name="noTelepon" class="bio" type="tel" id="noTelepon" placeholder="Masukan no telepon" @input="errorMessages.noTelepon = ''" required />
         </div>
         <div>
           <label class="labelbio" for="asalSekolah">Asal Sekolah</label>

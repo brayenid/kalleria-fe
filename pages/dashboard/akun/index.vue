@@ -22,6 +22,9 @@ const isFileSizeExceed = computed(() => {
 const fileName = ref('Belum ada perubahan foto')
 const fileSize = ref(0)
 const isUploading = ref(false)
+const errorMessages = reactive({
+  noTelepon: null
+})
 
 const formatFileSize = (bytes) => {
   if (bytes === 0) return '0 Bytes'
@@ -74,6 +77,13 @@ const submitForm = async (e) => {
     }
   } catch (error) {
     console.log(error)
+
+    const err = error.response.data.message
+    err.map((e) => {
+      if (e.path === 'noTelepon') {
+        errorMessages.noTelepon = 'Tidak valid'
+      }
+    })
     isUploading.value = false
     Swal.fire({
       icon: 'error',
@@ -158,7 +168,9 @@ onMounted(async () => {
               />
             </div>
             <div class="w-full col-span-2 sm:col-span-1">
-              <label for="noTelepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Telepon</label>
+              <label for="noTelepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Nomor Telepon <span class="font-normal text-red-600" v-show="errorMessages.noTelepon">({{ errorMessages.noTelepon }})</span></label
+              >
               <input
                 type="tel"
                 name="noTelepon"
