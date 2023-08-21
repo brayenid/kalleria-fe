@@ -25,7 +25,7 @@ onMounted(() => {
 <template>
   <div>
     <nav class="backdrop-blur-md bg-white/70 fixed w-full top-0 z-40">
-      <div class="max-w-screen-lg flex flex-wrap items-center justify-between mx-auto p-4">
+      <div class="container flex flex-wrap items-center justify-between mx-auto p-4">
         <NavbarTitleLogo title-text="Kalleria" />
         <div class="flex items-center lg:order-2">
           <NavbarUsersArea />

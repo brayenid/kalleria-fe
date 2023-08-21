@@ -28,7 +28,7 @@ onMounted(() => {
 
 <template>
   <section id="features" class="bg-white dark:bg-gray-900">
-    <div class="py-8 px-8 mx-auto max-w-screen-lg sm:py-16 lg:px-6">
+    <div class="container py-8 px-8 mx-auto sm:py-16 lg:px-6">
       <div class="w-full text-center mb-8 lg:mb-16">
         <h2 class="mb-4 text-3xl font-bold">Mengapa Kami?</h2>
         <p class="text-gray-500 sm:text-xl dark:text-gray-400">Dari sekian kelebihan, ada beberapa hal yang kami berikan untuk menjawab pertanyaan "mengapa anda memilih kami?"</p>

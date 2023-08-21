@@ -8,7 +8,7 @@
 
 <template>
   <section id="cta" class="bg-blue-950 text-gray-50 p-8 py-20">
-    <div class="max-w-screen-lg mx-auto text-center flex flex-col gap-8">
+    <div class="container mx-auto text-center flex flex-col gap-8">
       <div>
         <h2 class="mb-4 text-3xl font-bold">Mari Bergabung Bersama Kami</h2>
         <p class="text-gray-200 font-light sm:text-x">Belajar dengan pembelajaran terupdate dengan fasilitas penunjang yang mendukung!</p>

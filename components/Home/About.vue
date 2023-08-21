@@ -1,6 +1,6 @@
 <template>
   <section id="about" class="flex justify-center p-8 py-16 md:py-24 bg-[url('/svg/bg-dot.svg')] bg-cover">
-    <div class="flex flex-col md:flex-row max-w-screen-lg gap-16 justify-center items-start">
+    <div class="container flex flex-col md:flex-row gap-16 justify-center items-start">
       <div data-aos="zoom-in" class="flex justify-center items-center w-full">
         <NuxtImg class="w-52 md:w-60" src="/images/kalleria-logo.png" alt="logo kalleria" />
       </div>

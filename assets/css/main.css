@@ -37,3 +37,7 @@ input::placeholder {
 .swiper-pagination-bullet-active {
   @apply !bg-white;
 }
+
+.container {
+  @apply max-w-6xl;
+}

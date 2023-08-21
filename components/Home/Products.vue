@@ -15,18 +15,9 @@ onMounted(async () => {
 }
 </style>
 
-<style scoped>
-.gradient {
-  background: rgb(63, 131, 248);
-  background: -moz-linear-gradient(85deg, rgba(63, 131, 248, 1) 0%, rgba(46, 113, 227, 1) 68%);
-  background: -webkit-linear-gradient(85deg, rgba(63, 131, 248, 1) 0%, rgba(46, 113, 227, 1) 68%);
-  background: linear-gradient(85deg, rgba(63, 131, 248, 1) 0%, rgba(46, 113, 227, 1) 68%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f83f8",endColorstr="#2e71e3",GradientType=1);
-}
-</style>
 <template>
-  <section id="products" class="gradient pt-8 dark:bg-gray-900">
-    <div class="max-w-screen-lg overflow-hidden mx-auto">
+  <section id="products" class="bg-[url('/svg/bg-blue.svg')] bg-cover pt-8 dark:bg-gray-900">
+    <div class="container overflow-hidden mx-auto">
       <div class="mx-auto text-center mb-8 lg:mb-12">
         <h2 class="mb-4 text-white text-3xl font-bold">Program Belajar Yang Kami Tawarkan</h2>
         <p class="mb-5 px-6 font-light text-gray-200 sm:text-xl">Kami menawarkan {{ kelasTotal ? kelasTotal : 'beberapa' }} produk program belajar unggulan untuk anda.</p>
@@ -35,27 +26,22 @@ onMounted(async () => {
         <div data-aos="zoom-in" class="hidden md:inline flex-[1]">
           <NuxtImg src="/images/girl-thinking-again2.png" alt="girl thinking 2" />
         </div>
-        <div class="flex-[1] max-w-full lg:max-w-[700px] py-4">
+        <div class="flex-[3] max-w-full lg:max-w-[880px] py-4">
           <Swiper
-            class="!pb-4 lg:!pb-12"
-            :modules="[SwiperAutoplay]"
+            class="!pb-12"
+            :modules="[SwiperPagination]"
             :slides-per-view="1"
-            :autoplay="{
-              delay: 4000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true
+            :space-between="10"
+            :pagination="{
+              enabled: true,
+              clickable: true
             }"
-            :loop="true"
-            :space-between="30"
             :breakpoints="{
               540: {
                 slidesPerView: 2
               },
               910: {
                 slidesPerView: 3
-              },
-              1024: {
-                slidesPerView: 2
               }
             }"
           >

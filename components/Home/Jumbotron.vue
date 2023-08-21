@@ -1,6 +1,6 @@
 <template>
   <section id="jumbotron" class="bg-white">
-    <div class="flex flex-col md:flex-row text-center md:text-left items-center justify-between max-w-screen-lg px-4 pt-16 mx-auto">
+    <div class="container flex flex-col md:flex-row text-center md:text-left items-center justify-between px-4 pt-16 mx-auto">
       <div class="pb-9">
         <h1 class="text-gray-800 max-w-2xl mb-6 text-4xl font-extrabold tracking-normal !leading-tight md:text-4xl lg:text-5xl">
           Selamat Datang di <br />

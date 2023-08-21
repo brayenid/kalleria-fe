@@ -38,7 +38,7 @@ const pushToRoute = async () => {
     </div>
     <div class="group-hover:rounded-t-md transition-transform absolute bottom-0 bg-white w-full">
       <div class="p-2 justify-start text-center">
-        <h4 class="font-semibold sm:text-md">{{ kelasTitle }}</h4>
+        <h4 class="font-semibold text-gray-800 text-base">{{ kelasTitle }}</h4>
       </div>
       <div class="w-full h-full max-h-0 overflow-hidden group-hover:max-h-[138px] transition-all">
         <p class="mb-2 flex justify-center items-center gap-2"><IconsMoney class="!text-green-500" />{{ useCurrency(kelasPrice) }}</p>

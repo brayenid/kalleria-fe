@@ -21,7 +21,7 @@ useSeoMeta({
     </div>
     <article class="leading-relaxed border-b border-gray-200 pb-8">
       <div class="flex justify-center mb-8">
-        <NuxtImg class="max-w-[280px]" src="/images/kalleria-logo.png" alt="Logo Kalleria" />
+        <NuxtImg class="max-w-[240px]" src="/images/kalleria-logo.png" alt="Logo Kalleria" />
       </div>
       <span class="font-semibold">Selamat datang di Kalleria Group!</span><br /><br />
       Kami adalah sebuah Lembaga Kursus dan Pelatihan profesional yang beroperasi di Kutai Barat, Indonesia. Berkomitmen untuk memajukan dan meningkatkan Sumber Daya Manusia (SDM), kami berfokus pada memberikan pendidikan berkualitas tinggi

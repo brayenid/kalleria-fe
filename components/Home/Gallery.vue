@@ -19,7 +19,7 @@ const images = [
     <div class="max-w-screen-lg overflow-hidden mx-auto">
       <div class="mx-auto text-center mb-8 lg:mb-12">
         <h2 class="mb-4 text-3xl font-bold">Ruang Belajar</h2>
-        <p class="mb-5 px-6 font-light text-gray-600 sm:text-xl">Kami menyediakan ruang belajar yang nyaman untuk keberlangsungan belajar anda.</p>
+        <p class="px-6 font-light text-gray-600 sm:text-xl">Kami menyediakan ruang belajar yang nyaman untuk keberlangsungan belajar anda.</p>
       </div>
       <div>
         <div class="p-6 md:px-4 max-w-full">
@@ -31,7 +31,7 @@ const images = [
               disableOnInteraction: false
             }"
             :loop="true"
-            :space-between="30"
+            :space-between="10"
             :breakpoints="{
               700: {
                 slidesPerView: 2
