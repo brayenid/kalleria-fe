@@ -14,8 +14,10 @@ useSeoMeta({
 const { $axios: axios } = useNuxtApp()
 const route = useRoute()
 const sertifikatDetail = ref('')
+const isLoading = ref(false)
 
 const generatePDF = async () => {
+  isLoading.value = true
   // Fetch an existing PDF document
   const url = `${useRuntimeConfig().public.feEndpoint}/certif/sertifikat.pdf`
 
@@ -114,6 +116,7 @@ const generatePDF = async () => {
 
   // Trigger the browser to download the PDF document
   download(pdfBytes, `${route.params.id}.pdf`, 'application/pdf')
+  isLoading.value = false
 }
 
 onMounted(async () => {
@@ -129,6 +132,7 @@ onMounted(async () => {
 
 <template>
   <div class="flex justify-center">
+    <Loading v-if="isLoading" />
     <div class="w-full max-w-screen-md flex flex-col items-center gap-2 mt-6 px-2">
       <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
         <img class="w-8 h-8 mr-2" src="/images/kalleria-logo.png" alt="logo" />
@@ -138,7 +142,8 @@ onMounted(async () => {
         <h1 class="mb-4 font-semibold text-lg text-center">Validitas Sertifikat</h1>
         <p>
           Sertifikat ini benar telah diterbitkan oleh LPK Kalleria sebagai bentuk validitas kelulusan <span class="font-semibold">{{ sertifikatDetail?.nama }}</span> pada
-          <span class="font-semibold">{{ sertifikatDetail?.namaKelas }}</span> yang diterbitkan pada {{ useLocalDateDetail(sertifikatDetail?.tanggal) }}. Pertemuan yang telah dilalui siswa sebanyak {{ sertifikatDetail?.maksimalPertemuan }}.
+          <span class="font-semibold">{{ sertifikatDetail?.namaKelas }}</span> yang diterbitkan pada {{ useLocalDateDetail(sertifikatDetail?.tanggal) }}. Jumlah pertemuan yang telah dilalui oleh siswa pada kelas ini adalah sebanyak
+          {{ sertifikatDetail?.maksimalPertemuan }} pertemuan.
         </p>
         <div class="text-center mt-6">
           <button class="button-primary" @click="generatePDF">Cetak PDF</button>
