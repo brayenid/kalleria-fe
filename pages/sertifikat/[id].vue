@@ -1,6 +1,7 @@
 <script setup>
 import QRious from 'qrious'
-import { toPng } from 'html-to-image'
+import { PDFDocument, rgb } from 'pdf-lib'
+import fontkit from '@pdf-lib/fontkit'
 import download from 'downloadjs'
 
 definePageMeta({
@@ -13,27 +14,112 @@ useSeoMeta({
 const { $axios: axios } = useNuxtApp()
 const route = useRoute()
 const sertifikatDetail = ref('')
-const certEl = ref()
 
-const qr = ref()
+const generatePDF = async () => {
+  // Fetch an existing PDF document
+  const url = `${useRuntimeConfig().public.feEndpoint}/certif/sertifikat.pdf`
 
-const toImg = async () => {
-  const dataUrl = await toPng(certEl.value)
-  download(dataUrl, `sertifikat-${route.params.id}.png`)
-}
+  // Fetch Fonts
+  const poppinsRegularUrl = await fetch(`${useRuntimeConfig().public.feEndpoint}/fonts/Poppins-Regular.ttf`).then((res) => res.arrayBuffer())
+  const poppinsBoldUrl = await fetch(`${useRuntimeConfig().public.feEndpoint}/fonts/Poppins-Bold.ttf`).then((res) => res.arrayBuffer())
 
-const print = () => {
-  window.print()
+  // Load a PDFDocument from the existing PDF bytes
+  const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer())
+  const pdfDoc = await PDFDocument.load(existingPdfBytes)
+  pdfDoc.registerFontkit(fontkit)
+
+  // Embed font
+  const poppinsRegular = await pdfDoc.embedFont(poppinsRegularUrl)
+  const poppinsBold = await pdfDoc.embedFont(poppinsBoldUrl)
+
+  // Get the first page of the document
+  const pages = pdfDoc.getPages()
+  const page = pages[0]
+  const textSizeName = 30
+  const textSizeDesc = 12
+  const textSizeDate = 12
+  const { width, height } = page.getSize()
+
+  // Name set
+  const name = useCapital(sertifikatDetail.value?.nama)
+  const textWidthName = poppinsBold.widthOfTextAtSize(name, textSizeName)
+  const textXName = (width - textWidthName) / 2
+  const textYName = 360
+
+  // Desc set
+  const desc = `Yang telah menyelesaikan ${sertifikatDetail.value?.namaKelas} di LPK Kalleria`
+  const textWidthDesc = poppinsBold.widthOfTextAtSize(desc, textSizeDesc)
+  const textXDesc = (width - textWidthDesc) / 2
+  const textYDesc = 320
+
+  // Desc set
+  const desc2 = `dalam ${sertifikatDetail.value?.maksimalPertemuan} pertemuan kelas.`
+  const textWidthDesc2 = poppinsBold.widthOfTextAtSize(desc2, textSizeDesc)
+  const textXDesc2 = (width - textWidthDesc2) / 2
+  const textYDesc2 = 300
+
+  // Date set
+  const date = useLocalDateDetail(sertifikatDetail.value?.tanggal)
+  const textWidthDate = poppinsBold.widthOfTextAtSize(date, textSizeDate)
+  const textXDate = (width - textWidthDate) / 2
+  const textYDate = 180
+
+  // QR Set
+  const qrText = `${useRuntimeConfig().public.feEndpoint}/sertifikat/${route.params.id}`
+  const qr = new QRious({ value: qrText })
+  const qrImage = await pdfDoc.embedPng(qr.toDataURL())
+
+  // Draw a string of text
+  page.drawText(name, {
+    x: textXName,
+    y: textYName,
+    size: textSizeName,
+    font: poppinsBold,
+    color: rgb(62 / 255, 64 / 255, 149 / 255)
+  })
+
+  page.drawText(desc, {
+    x: textXDesc,
+    y: textYDesc,
+    size: textSizeDesc,
+    font: poppinsRegular,
+    color: rgb(24 / 255, 24 / 255, 27 / 255)
+  })
+
+  page.drawText(desc2, {
+    x: textXDesc2,
+    y: textYDesc2,
+    size: textSizeDesc,
+    font: poppinsRegular,
+    color: rgb(24 / 255, 24 / 255, 27 / 255)
+  })
+
+  page.drawText(date, {
+    x: textXDate,
+    y: textYDate,
+    size: textSizeDate,
+    font: poppinsRegular,
+    color: rgb(24 / 255, 24 / 255, 27 / 255)
+  })
+
+  // Menggambar gambar QR di tengah halaman
+  const qrX = width - qrImage.width
+  const qrY = height - 590 // Menggeser gambar QR di atas teks
+  const qrImageWidth = 100
+  const qrImageHeight = 100
+  page.drawImage(qrImage, { x: qrX, y: qrY, width: qrImageWidth, height: qrImageHeight })
+
+  // Serialize the PDFDocument to bytes (a Uint8Array)
+  const pdfBytes = await pdfDoc.save()
+
+  // Trigger the browser to download the PDF document
+  download(pdfBytes, `${route.params.id}.pdf`, 'application/pdf')
 }
 
 onMounted(async () => {
   try {
     const sertifikatKelasUser = (await axios.get(`/sertifikat/${route.params.id}`)).data.data
     sertifikatDetail.value = sertifikatKelasUser
-    new QRious({
-      element: qr.value,
-      value: `https://lpk.kalleriagroup.com/sertifikat/${sertifikatDetail.value.id}`
-    })
     if (!sertifikatDetail.value) throw new Error('Not Found')
   } catch (error) {
     throw createError({ status: 404, message: 'Not Found', fatal: true })
@@ -41,63 +127,21 @@ onMounted(async () => {
 })
 </script>
 
-<style scoped>
-.print-area-container {
-  @apply min-w-[1123px] h-[794px] p-14;
-}
-@media print {
-  .print-control {
-    @apply hidden;
-  }
-  .print-area-container {
-    @apply min-w-[1024px] !h-screen p-0;
-  }
-}
-</style>
-
 <template>
-  <div>
-    <div class="print-control fixed w-full p-2 bg-gray-100 z-50 text-center top-0 flex justify-center items-center gap-2">
-      <button @click="toImg" class="p-1 px-2 bg-red-50 border border-red-600 rounded text-red-600 hover:bg-red-200">PNG</button>
-      <button @click="print" class="p-1 px-2 bg-green-50 border border-green-600 rounded text-green-600 hover:bg-green-200">Cetak</button>
-    </div>
-    <div class="print-area-container">
-      <div ref="certEl" class="bg-blue-900 w-full h-full flex justify-center items-center p-6">
-        <div class="bg-white p-6 w-full h-full">
-          <div class="bg-yellow-300 h-full p-1">
-            <div class="bg-[url('/images/accent-cert.png')] bg-cover !bg-opacity-60 h-full p-2 flex flex-col justify-between relative">
-              <header class="flex justify-between items-center p-4">
-                <div class="flex items-center gap-4">
-                  <img class="w-28" src="/images/kalleria-logo.png" alt="logo" />
-                </div>
-                <div class="absolute left-0 w-full flex justify-center items-center">
-                  <img class="w-16" src="/images/medal.png" alt="" />
-                </div>
-                <h1 class="text-3xl text-yellow-400 font-bold text-right uppercase">
-                  Sertifikat <br />
-                  Kompetensi <br />
-                  Kelulusan
-                </h1>
-              </header>
-              <div class="text-center h-64 flex flex-col justify-start gap-8">
-                <p class="text-lg font-light">Diberikan Kepada :</p>
-                <p class="text-5xl font-bold text-blue-800">{{ sertifikatDetail?.nama }}</p>
-                <p class="text-md max-w-lg mx-auto font-light">
-                  Yang telah berhasil menyelesaikan <span class="font-semibold">{{ sertifikatDetail?.namaKelas }}</span> di LPK Kalleria dalam {{ sertifikatDetail?.maksimalPertemuan }} pertemuan kelas.
-                </p>
-              </div>
-              <footer class="text-center font-light relative">
-                <div>
-                  <p>Kutai Barat, {{ useLocalDateDetail(sertifikatDetail?.tanggal) }}</p>
-                  <br />
-                  <br />
-                  <br />
-                  <p class="font-semibold">LPK Kalleria</p>
-                </div>
-                <canvas ref="qr" class="w-28 absolute bottom-0 right-0"></canvas>
-              </footer>
-            </div>
-          </div>
+  <div class="flex justify-center">
+    <div class="w-full max-w-screen-md flex flex-col items-center gap-2 mt-6 px-2">
+      <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+        <img class="w-8 h-8 mr-2" src="/images/kalleria-logo.png" alt="logo" />
+        Kalleria
+      </a>
+      <div class="bg-white p-4 rounded shadow">
+        <h1 class="mb-4 font-semibold text-lg text-center">Validitas Sertifikat</h1>
+        <p>
+          Sertifikat ini benar telah diterbitkan oleh LPK Kalleria sebagai bentuk validitas kelulusan <span class="font-semibold">{{ sertifikatDetail?.nama }}</span> pada
+          <span class="font-semibold">{{ sertifikatDetail?.namaKelas }}</span> yang diterbitkan pada {{ useLocalDateDetail(sertifikatDetail?.tanggal) }}. Pertemuan yang telah dilalui siswa sebanyak {{ sertifikatDetail?.maksimalPertemuan }}.
+        </p>
+        <div class="text-center mt-6">
+          <button class="button-primary" @click="generatePDF">Cetak PDF</button>
         </div>
       </div>
     </div>

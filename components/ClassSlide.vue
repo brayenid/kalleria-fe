@@ -36,7 +36,7 @@ const pushToRoute = async () => {
     <div class="overflow-hidden flex items-center justify-center">
       <NuxtImg class="group-hover:scale-110 transition-all object-cover h-full" loading="lazy" :src="`${useRuntimeConfig().public.beEndpoint}/${img}`" :alt="kelasTitle" />
     </div>
-    <div class="rounded-t-md absolute bottom-0 bg-white w-full">
+    <div class="group-hover:rounded-t-md transition-transform absolute bottom-0 bg-white w-full">
       <div class="p-2 justify-start text-center">
         <h4 class="font-semibold sm:text-md">{{ kelasTitle }}</h4>
       </div>

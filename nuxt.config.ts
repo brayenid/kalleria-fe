@@ -43,6 +43,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       beEndpoint: process.env.BE_ENDPOINT,
+      feEndpoint: process.env.FE_ENDPOINT,
       ogImage: process.env.OG_IMAGE,
       ogDesc: process.env.OG_DESC
     }
