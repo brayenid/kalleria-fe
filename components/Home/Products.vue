@@ -22,11 +22,8 @@ onMounted(async () => {
         <h2 class="mb-4 text-white text-3xl font-bold">Program Belajar Yang Kami Tawarkan</h2>
         <p class="mb-5 px-6 font-light text-gray-200 sm:text-xl">Kami menawarkan {{ kelasTotal ? kelasTotal : 'beberapa' }} produk program belajar unggulan untuk anda.</p>
       </div>
-      <div class="md:flex items-end px-6 lg:px-0">
-        <div data-aos="zoom-in" class="hidden md:inline flex-[1]">
-          <NuxtImg src="/images/girl-thinking-again2.png" alt="girl thinking 2" />
-        </div>
-        <div class="flex-[3] max-w-full lg:max-w-[880px] py-4">
+      <div class="px-6 lg:px-0">
+        <div class="py-4 px-0 max-w-full md-mid:max-w-[880px] lg:px-4">
           <Swiper
             class="!pb-12"
             :modules="[SwiperPagination]"

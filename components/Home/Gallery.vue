@@ -16,7 +16,7 @@ const images = [
 
 <template>
   <section id="ruangan" class="bg-white pt-8 dark:bg-gray-900">
-    <div class="max-w-screen-lg overflow-hidden mx-auto">
+    <div class="container overflow-hidden mx-auto">
       <div class="mx-auto text-center mb-8 lg:mb-12">
         <h2 class="mb-4 text-3xl font-bold">Ruang Belajar</h2>
         <p class="px-6 font-light text-gray-600 sm:text-xl">Kami menyediakan ruang belajar yang nyaman untuk keberlangsungan belajar anda.</p>

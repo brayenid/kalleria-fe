@@ -1,7 +1,8 @@
 <template>
   <div>
     <footer class="bg-white dark:bg-gray-900">
-      <div class="mx-auto w-full container p-4 py-6 lg:py-8">
+      <div class="mx-auto w-full container p-4 pb-6 lg:pb-8 pt-0">
+        <hr class="mb-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:mb-8" />
         <div class="md:flex md:justify-between">
           <div class="mb-6 text-center md:text-left md:mb-0">
             <p class="flex items-center justify-center md:items-start md:justify-start">
