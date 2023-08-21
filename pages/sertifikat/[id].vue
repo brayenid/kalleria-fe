@@ -115,7 +115,8 @@ const generatePDF = async () => {
   const pdfBytes = await pdfDoc.save()
 
   // Trigger the browser to download the PDF document
-  download(pdfBytes, `${route.params.id}.pdf`, 'application/pdf')
+  const fileName = `SERTIFIKAT-KALLERIA_${(sertifikatDetail.value?.nama).toUpperCase()}_${(sertifikatDetail.value?.namaKelas).toUpperCase()}.pdf`
+  download(pdfBytes, fileName, 'application/pdf')
   isLoading.value = false
 }
 
