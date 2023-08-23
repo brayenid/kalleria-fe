@@ -5,7 +5,7 @@ definePageMeta({
 })
 
 useSeoMeta({
-  title: 'Presensi Kelas'
+  title: 'Pembelian Kelas Tunai'
 })
 const { $axiosAuth: axios, $Swal: Swal } = useNuxtApp()
 const route = useRoute()
@@ -112,6 +112,10 @@ const submitForm = async (e) => {
       <div class="w-full max-w-md mx-auto">
         <div class="p-8 space-y-6">
           <h2 class="mb-8 text-xl text-center font-bold text-gray-900 dark:text-white">Pembelian Kelas Tunai</h2>
+          <div class="p-4 mb-5 max-w-xl mx-auto text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+            <span class="font-medium">Info!</span> Pada kolom ID (kelas atau siswa), <span class="font-semibold">Tidak perlu menulis ID</span>, cukup masukan nama/judul data. Mis: Ingin memasukan kelas Excel, maka ketik saja "excel" maka
+            akan muncul daftar kelas terkait, lalu pilih yang sesuai.
+          </div>
           <form class="space-y-4 md:space-y-6" @submit.prevent="submitForm">
             <div class="relative">
               <label for="kelasId" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Kelas</label>

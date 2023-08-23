@@ -4,22 +4,13 @@ useSeoMeta({
 })
 </script>
 
-<style lang="postcss" scoped>
-.step {
-  @apply pb-10 mb-10 border-b border-gray-300;
-}
-.step img {
-  @apply mt-8 mx-auto border border-gray-200;
-}
-</style>
-
 <template>
   <StaticPage>
     <div class="mb-6">
       <h1 class="text-2xl font-bold text-center">Tentang Kami</h1>
       <p class="text-sm text-center w-full text-gray-400">18 Agustus 2023</p>
     </div>
-    <article class="leading-relaxed border-b border-gray-200 pb-8">
+    <article class="leading-relaxed pb-8">
       <div class="flex justify-center mb-8">
         <NuxtImg class="max-w-[240px]" src="/images/kalleria-logo.png" alt="Logo Kalleria" />
       </div>

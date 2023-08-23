@@ -8,6 +8,9 @@ useSeoMeta({
 .step {
   @apply pb-10 mb-10 border-b border-gray-300;
 }
+.step:last-child {
+  @apply border-b-0;
+}
 .step img {
   @apply mt-8 mx-auto border border-gray-200;
 }
